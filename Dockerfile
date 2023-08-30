@@ -17,4 +17,4 @@ COPY composer.json composer.lock ./
 RUN composer install
 
 # Copy source code
-COPY . .
+COPY src .
