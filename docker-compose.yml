@@ -3,14 +3,16 @@ services:
     build: .
     ports:
       - "80:80"
+    env_file: .env
     networks:
       - app
       - db
 
   db:
     image: mysql:8.0.34
-    environment:
-      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    env_file: .env
     networks:
       - db
 
