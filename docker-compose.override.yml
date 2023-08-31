@@ -2,6 +2,7 @@ services:
   api:
     volumes:
       - ./src:/var/www/html
+      - ./vendor:/var/www/html/vendor
 
   db:
     ports:
