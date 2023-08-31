@@ -16,6 +16,10 @@ The compose override contains development configuration, such as bind mounts and
 
 The bind mount will copy in source code, so we can edit it directly without re-building the image, but it will also obscure that folder within the container. This will remove the dependencies installed in the image. You must therefore install the dependencies in your local project folder, so the bind mount copies them into the container.
 
+1. Install [Composer](https://getcomposer.org/).
+2. Possibly enable the Sodium PHP extension in `php.ini` (`extension=sodium`). It may be required by some JWT libraries.
+3. Stop MySQL service on host machine, if it's running on port 3306.
+
 ```bash
 composer install
 ```
