@@ -1,4 +1,4 @@
-<?php include "db/dbconn.php"?>
+<?php include __DIR__ . "/../db/dbconn.php"?>
 <?php 
 
 ?>
