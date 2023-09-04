@@ -2,7 +2,9 @@
 
 require_once __DIR__ . '/router.php';
 
-get('/', 'views/index.php')
-post('/login', 'views/login.php'); //endpoint er /login og den tager dig til login.php siden
-post('/register', 'views/register.php');
+get('/', 'views/index.php');
+get('/login', 'views/login.php');
+get('/register', 'views/register.php');
+post('/login', 'views/verify.php');
+post('/register', 'views/create_user.php');
 any('/404','views/404.php');
