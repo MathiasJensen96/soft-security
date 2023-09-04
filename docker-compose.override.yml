@@ -3,6 +3,7 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./vendor:/var/www/html/vendor
+      - ./conf/php-override.ini:/usr/local/etc/php/conf.d/php-override.ini
 
   db:
     ports:

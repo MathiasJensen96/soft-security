@@ -10,7 +10,7 @@ require_once __DIR__ . '/router.php';
 // In the URL -> http://localhost
 // The output -> Index
 get('/', 'views/index.php');
-
+get('/login', 'services/login.php');
 // Dynamic GET. Example with 1 variable
 // The $id will be available in user.php
 get('/user/$id', 'views/user');

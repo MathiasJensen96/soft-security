@@ -16,5 +16,12 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 RUN composer install
 
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install mysqli
+
+# PHP configuration
+COPY conf/php-override.ini $PHP_INI_DIR/conf.d/php-override.ini
+
 # Copy source code
 COPY src .
