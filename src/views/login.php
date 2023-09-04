@@ -13,9 +13,6 @@
     }  
     }
     
-    // foreach ($stm as $row) {
-    //     print_r($row);
-    //   }
     
 ?>
 <!DOCTYPE html>   
