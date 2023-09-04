@@ -6,14 +6,12 @@
     define('DB_ADMIN', 'admin');
     define('DB_ADMIN_PASS', $_ENV['ADMIN_PASSWORD']);
     
-    $userconn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    $adminconn = new mysqli(DB_HOST, DB_ADMIN, DB_ADMIN_PASS, DB_NAME);
-    
-    if($userconn->connect_error){
-        die('connection failed' . $userconn->connect_error);
+    try {
+        $userconn = new pdo('mysql:host=localhost;dbname=securitydb', DB_USER, DB_PASS);
+        $adminconn = new pdo('mysql:host=localhost;dbname=securitydb', DB_ADMIN, DB_ADMIN_PASS);
+
+    } catch (PDOException $e) {
+        print "Error: " . $e->getMessage();
     }
 
-    if($adminconn->connect_error){
-        die('connection failed' . $adminconn->connect_error);
-    }
 ?>
