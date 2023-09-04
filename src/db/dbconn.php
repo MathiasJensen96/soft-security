@@ -7,8 +7,8 @@
     define('DB_ADMIN_PASS', $_ENV['ADMIN_PASSWORD']);
     
     try {
-        $userconn = new pdo('mysql:host=localhost;dbname=securitydb', DB_USER, DB_PASS);
-        $adminconn = new pdo('mysql:host=localhost;dbname=securitydb', DB_ADMIN, DB_ADMIN_PASS);
+        $userconn = new pdo('mysql:host=db;dbname=securitydb', DB_USER, DB_PASS);
+        $adminconn = new pdo('mysql:host=db;dbname=securitydb', DB_ADMIN, DB_ADMIN_PASS);
 
     } catch (PDOException $e) {
         print "Error: " . $e->getMessage();
