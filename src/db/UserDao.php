@@ -25,4 +25,10 @@ class UserDao
         }
         return new users($user['email'], $user['password'], $user['role']);
     }
+    function createUser(users $user){
+        global $userconn;
+        $sqlcreate = $userconn->prepare("insert into user (`email`,`password`,`role`) values (?,?,?)");
+        return $sqlcreate->execute([$user->getEmail(),$user->getPassword(),$user->getRole()]);
+        
+    }
 }
