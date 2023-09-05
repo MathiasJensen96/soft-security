@@ -2,7 +2,7 @@
 include __DIR__ . "/../db/UserDao.php";
 
 $userDao = new UserDao();
-// if(isset($_POST["submit"])){
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"];
     $pword = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -19,11 +19,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             return http_response_code(400);
         }
     }
-
-    //TODO: if it doesn't exist create this new user in database and 
-    // return the user/or http response.
-
-    // }else{
-    //     header("Location: ../");
-    // }
 }
