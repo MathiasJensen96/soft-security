@@ -1,6 +1,19 @@
 <?php include __DIR__ . "/../db/dbconn.php"?>
 <?php 
 
+    $password = $_POST['password'];
+// $password = password_hash($password,PASSWORD_DEFAULT);
+    $stm = $userconn->prepare("select * from user where email = ?");
+    $stm->execute([$_POST['email']]);
+    $user = $stm->fetch(PDO::FETCH_ASSOC);
+    print_r($user);
+    if ($user){
+      if (password_verify($password, $user['password'])){
+        echo "hurraaa";
+    }  
+    }
+    
+    
 ?>
 <!DOCTYPE html>   
 <html>   
@@ -49,8 +62,9 @@ button {
 </style>   
 </head>    
 <body>    
+    <!-- <?php echo $password; ?> -->
     <center> <h1> Login here </h1> </center>   
-    <form method="POST" action="/views/verify.php">  
+    <form method="POST" action="/login">  
         <div class="container">   
             <label>Username : </label>   
             <input type="text" placeholder="Enter Email" name="email" required>  
