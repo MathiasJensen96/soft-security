@@ -1,4 +1,5 @@
 <?php include __DIR__ . "/../db/dbconn.php"?>
+<?php include __DIR__ . "/../entities/products.php"?>
 <?php
     $response = array();
 
@@ -10,10 +11,10 @@
             header("Content-Type: JSON");
             $i = 0;
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                $response[$i]['id'] = $row ['id'];
-                $response[$i]['name'] = $row ['name'];
-                $response[$i]['description'] = $row ['description'];
-                $response[$i]['price'] = $row ['price'];
+
+                $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
+
+                $response[$i]= $product;
                 $i++;
             }
             echo json_encode($response, JSON_PRETTY_PRINT);
