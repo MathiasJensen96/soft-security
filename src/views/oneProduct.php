@@ -1,22 +1,17 @@
 <?php include __DIR__ . "/../db/dbconn.php"?>
+<?php include __DIR__ . "/../entities/products.php"?>
 <?php
-    $response = array();
-
     if ($userconn) {
         $sql = "SELECT * FROM product WHERE id = '$id'";
         $result = $userconn->query($sql);
 
         if ($result) {
             header("Content-Type: JSON");
-            $i = 0;
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                $response[$i]['id'] = $row ['id'];
-                $response[$i]['name'] = $row ['name'];
-                $response[$i]['description'] = $row ['description'];
-                $response[$i]['price'] = $row ['price'];
-                $i++;
+
+                $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
             }
-            echo json_encode($response, JSON_PRETTY_PRINT);
+            echo json_encode($product, JSON_PRETTY_PRINT);
         }
     } else {
         echo "Failed to connect to DB";
