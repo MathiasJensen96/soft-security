@@ -1,15 +1,24 @@
 <?php include __DIR__ . "/../db/dbconn.php"?>
 <?php
-    $sql = "SELECT * FROM product WHERE id = '$id'";
-    $result = $userconn->query($sql);
+    $response = array();
 
-    if ($result->rowCount() > 0) {
-        echo "<table><tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th></tr>";
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr><td>".$row["id"]."</td><td>".$row["name"]."</td><td>".$row["description"]."</td><td>".$row["price"]."</td></tr>";
+    if ($userconn) {
+        $sql = "SELECT * FROM product WHERE id = '$id'";
+        $result = $userconn->query($sql);
+
+        if ($result) {
+            header("Content-Type: JSON");
+            $i = 0;
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $response[$i]['id'] = $row ['id'];
+                $response[$i]['name'] = $row ['name'];
+                $response[$i]['description'] = $row ['description'];
+                $response[$i]['price'] = $row ['price'];
+                $i++;
+            }
+            echo json_encode($response, JSON_PRETTY_PRINT);
         }
-        echo "</table>";
     } else {
-    echo"No results found!";
+        echo "Failed to connect to DB";
     }
 ?>
