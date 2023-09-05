@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_POST['password'])) {
+if (empty($_POST['password'])) {
     return http_response_code(400);
 }
 $password = $_POST['password'];
