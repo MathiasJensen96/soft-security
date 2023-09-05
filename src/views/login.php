@@ -1,6 +1,4 @@
-<?php include __DIR__ . "/../services/login.php"?>
-
-<!DOCTYPE html>   
+<!DOCTYPE html>
 <html>   
 <head>  
 <meta name="viewport" content="width=device-width, initial-scale=1">  
@@ -46,8 +44,7 @@ button {
     }   
 </style>   
 </head>    
-<body>    
-    <!-- <?php echo $password; ?> -->
+<body>
     <center> <h1> Login here </h1> </center>   
     <form method="POST" action="/login">  
         <div class="container">   
