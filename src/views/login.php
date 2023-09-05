@@ -1,20 +1,5 @@
-<?php include __DIR__ . "/../db/dbconn.php"?>
-<?php 
+<?php include __DIR__ . "/../services/login.php"?>
 
-    $password = $_POST['password'];
-// $password = password_hash($password,PASSWORD_DEFAULT);
-    $stm = $userconn->prepare("select * from user where email = ?");
-    $stm->execute([$_POST['email']]);
-    $user = $stm->fetch(PDO::FETCH_ASSOC);
-    print_r($user);
-    if ($user){
-      if (password_verify($password, $user['password'])){
-        echo "hurraaa";
-    }  
-    }
-    
-    
-?>
 <!DOCTYPE html>   
 <html>   
 <head>  
