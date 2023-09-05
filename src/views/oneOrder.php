@@ -1,15 +1,18 @@
 <?php include __DIR__ . "/../db/dbconn.php"?>
+<?php include __DIR__ . "/../entities/orders.php"?>
 <?php
-    $sql = "SELECT * FROM securitydb.order WHERE id = '$id'";
-    $result = $userconn->query($sql);
+    if ($userconn) {
+        $sql = "SELECT * FROM securitydb.order WHERE id = '$id'";
+        $result = $userconn->query($sql);
 
-    if ($result->rowCount() > 0) {
-        echo "<table><tr><th>Id</th><th>Status</th><th>Date</th><th>User email</th></tr>";
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr><td>".$row["id"]."</td><td>".$row["status"]."</td><td>".$row["date"]."</td><td>".$row["User_email"]."</td></tr>";
+        if ($result) {
+            header("Content-Type: JSON");
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email']);
+            }
+            echo json_encode($order, JSON_PRETTY_PRINT);
         }
-        echo "</table>";
     } else {
-    echo"No results found!";
+        echo "Failed to connect to DB";
     }
 ?>

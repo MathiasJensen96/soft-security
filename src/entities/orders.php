@@ -5,6 +5,13 @@
         public $date;
         public $user_email;
 
+        function __construct($id, $status, $date, $user_email) {
+                $this->id = $id;
+                $this->status = $status;
+                $this->date = $date;
+                $this->user_email = $user_email;
+            }
+
         /**
          * Get the value of id
          */ 
