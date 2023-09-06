@@ -2,7 +2,7 @@ CREATE DATABASE `securitydb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8
 use securitydb;
 CREATE TABLE `user` (
   `email` varchar(50) NOT NULL,
-  `password` varchar(60) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` varchar(5) NOT NULL DEFAULT 'user',
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
