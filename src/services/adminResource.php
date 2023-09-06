@@ -34,7 +34,13 @@ if (!$authorizationManager->requireRole('admin')) {
         $role = $_POST['role'];
         $newEmail = $_POST['newEmail'];
         if (!empty($email) && !empty($role) && !empty($newEmail)) {
-            $userDao->updateUser($newEmail, $role, $email);
+            if ($userDao->getUser($email)) {
+
+                $userDao->updateUser($newEmail, $role, $email);
+            } else {
+
+                echo "no user: " . $email . " exists";
+            }
         }
     }
 
@@ -42,7 +48,13 @@ if (!$authorizationManager->requireRole('admin')) {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $deleteUserEmail = $_POST['deleteEmail'];
         if (!empty($deleteUserEmail)) {
-            $userDao->deleteUser($deleteUserEmail);
+            if ($userDao->getUser($deleteUserEmail)) {
+
+                $userDao->deleteUser($deleteUserEmail);
+            } else {
+
+                echo "no user: " . $deleteUserEmail . " exists";
+            }
         }
     }
 }
