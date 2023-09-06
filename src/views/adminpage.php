@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -46,20 +47,24 @@
         <h1>Update user information here</h1>
         <form method="PUT" action="/users/{id}">
             <div class="container">
-                <label>Email : </label>
+                <label>Old email : </label>
                 <input type="text" placeholder="Enter user Email" name="email" required>
                 <label>Role : </label>
                 <input type="text" placeholder="Enter new user role" name="role" required>
+                <label>New email : </label>
+                <input type="text" placeholder="Enter new user email" name="newEmail" required>
                 <button type="submit">Update</button>
             </div>
-
-            <h1>Delete user here</h1>
-            <form method="DELETE" action="/users/{id}">
-                <div class="container">
-                    <label>User email to delete: </label>
-                    <input type="text" placeholder="Enter Email" name="email" required>
-                    <button type="submit">Terminate</button>
-                </div>
+        </form>
+        
+        <h1>Delete user here</h1>
+        <form method="DELETE" action="/users/{id}">
+            <div class="container">
+                <label>User email to delete: </label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+                <button type="submit">Terminate</button>
+            </div>
+        </form>
 
 </body>
 
