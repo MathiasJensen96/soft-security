@@ -28,6 +28,11 @@ class AuthenticationManager
     {
         session_regenerate_id();
         $_SESSION['expiration'] = time() + self::ABSOLUTE_EXPIRATION;
+        self::didActivity();
+    }
+
+    function didActivity(): void
+    {
         $_SESSION['lastActive'] = time();
     }
 }
