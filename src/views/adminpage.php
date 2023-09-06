@@ -45,7 +45,7 @@
         <h1>Hello World!</h1>
 
         <h1>Update user information here</h1>
-        <form method="PUT" action="/users/{id}">
+        <form method="POST" action="/update-users/$id">
             <div class="container">
                 <label>Old email : </label>
                 <input type="text" placeholder="Enter user Email" name="email" required>
@@ -56,9 +56,9 @@
                 <button type="submit">Update</button>
             </div>
         </form>
-        
+
         <h1>Delete user here</h1>
-        <form method="DELETE" action="/users/{id}">
+        <form method="POST" action="/delete-users/{id}">
             <div class="container">
                 <label>User email to delete: </label>
                 <input type="text" placeholder="Enter Email" name="email" required>
