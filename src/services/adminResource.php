@@ -1,9 +1,15 @@
 <?php
+
+require_once __DIR__ . '/../security/AuthorizationManager.php';
+
+use security\AuthorizationManager;
+
 session_start();
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    http_response_code(403);
+$authorizationManager = new AuthorizationManager();
+if (!$authorizationManager->requireRole('admin')) {
     echo "You are not authorised!";
-    return;
+    return http_response_code(403);
+} else {
+    echo "Welcome, admin.";
 }
-echo "Welcome, admin.";
