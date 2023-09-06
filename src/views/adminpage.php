@@ -1,4 +1,4 @@
-<?php include __DIR__ . "../services/logout.php" ?>
+<?php include __DIR__ . "/../services/logout.php" ?>
 <!DOCTYPE html>
 <html>
 
