@@ -24,6 +24,21 @@ if (!$authorizationManager->requireRole('admin')) {
     $userDao = new UserDao;
     //echo "Welcome, admin.";
 
+    // find user funktionalitet her
+    if ($_SERVER['REQUEST_METHOD'] === "GET") {
+        // if (isset($_POST['submit'])) {
+        $userEmail = $_GET['userEmail'];
+        if (!empty($userEmail)) {
+
+            header("Content-Type: JSON");
+            $user = $userDao->getUser($userEmail);
+            echo json_encode($user, JSON_PRETTY_PRINT);
+        } else {
+
+            echo "User doesn't exist";
+        }
+        // }
+    }
 
     // UPDATE USER FUNKTIONALITET HER
     if ($_SERVER["REQUEST_METHOD"] === "POST") {

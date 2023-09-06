@@ -15,6 +15,7 @@ post('/products', 'views/createProduct.php');
 get('/orders', 'views/allOrders.php');
 get('/orders/$id', 'views/oneOrder.php');
 get('/adminpage', 'controllers/adminPageController.php');
+get('/users/$id', 'services/adminResource.php');
 post('/update-users/$id','services/adminResource.php');
 post('/delete-users/$id', 'services/adminResource.php');
 get('/admin', 'services/adminResource.php');

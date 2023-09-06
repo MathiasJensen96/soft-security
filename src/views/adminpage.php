@@ -44,6 +44,15 @@
     <div style="padding-left:16px">
         <h1>Hello World!</h1>
 
+        <h1>Find user information here</h1>
+        <form method="GET" action="/users/$id">
+            <div class="container">
+                <label>Get user by email : </label>
+                <input type="text" placeholder="Enter user Email" name="userEmail" >
+                <button type="submit">Get user</button>
+            </div>
+        </form>
+
         <h1>Update user information here</h1>
         <form method="POST" action="/update-users/$id">
             <div class="container">
