@@ -5,6 +5,8 @@ require_once __DIR__ . '/router.php';
 get('/', 'views/index.php');
 get('/login', 'views/login.php');
 post('/login', 'services/login.php');
+get('/logout', 'services/logout.php');
+post('/logout', 'services/logout.php');
 get('/register', 'views/register.php');
 post('/register', 'views/register.php');
 get('/products', 'views/allProducts.php');
