@@ -7,4 +7,4 @@ use security\AuthenticationManager;
 session_start();
 
 $authenticationManager = new AuthenticationManager();
-$authenticationManager->invalidateSession();
+$authenticationManager->closeSession();

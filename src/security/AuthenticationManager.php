@@ -10,8 +10,20 @@ class AuthenticationManager
 
     function validateSession(): bool
     {
-        if ($this->isExpired()) {
+        if (empty($_SESSION['authenticated'])) {
             return false;
+        } else if ($this->isExpired()) {
+            if (!empty($_SESSION['invalidated'])) {
+                // TODO: Log that this is a possible attack
+                // TODO: Invalidate all sessions for this user
+                //   we can't do this until we track all sessions for a user
+                //   which might require a database, e.g. Redis.
+            }
+            $this->invalidateSession();
+            $this->removeToken();
+            return false;
+        } else if (!empty($_SESSION['invalidated'])) {
+            // TODO: Log that an action was performed in grace period after session was invalidated
         } else if ($this->needsRenewal()) {
             $this->renewSession();
         }
@@ -25,36 +37,51 @@ class AuthenticationManager
             || (isset($_SESSION['lastActive']) && $_SESSION['lastActive'] + self::IDLE_EXPIRATION <= time());
     }
 
-    function invalidateSession(): void
-    {
-        $this->expireSession();
-        setcookie(session_name(), "");  // removes session cookie from browser
-    }
-
     function expireSession(): void
     {
         $_SESSION['expiration'] = time() + 10;
     }
 
+    function invalidateSession(): void
+    {
+        $_SESSION['invalidated'] = true;
+    }
+
+    function removeToken(): void
+    {
+        setcookie(session_name(), "");  // removes session cookie from browser
+    }
+
     function createSession(): void
     {
         $_SESSION['expiration'] = time() + self::ABSOLUTE_EXPIRATION;
+        $_SESSION['authenticated'] = true;
         $this->renewSession();
         $this->didActivity();
     }
 
     function needsRenewal():bool
     {
-        return !isset($_SESSION['lastRenew']) || $_SESSION['lastRenew'] + self::RENEWAL_INTERVAL <= time();
+        // if lastRenewal is not set, it will try to renew.
+        return !isset($_SESSION['lastRenewal']) || $_SESSION['lastRenewal'] + self::RENEWAL_INTERVAL <= time();
     }
 
     function renewSession():void
     {
         $old_expiration = $_SESSION['expiration'];
         $this->expireSession();
+        $this->invalidateSession();
         session_regenerate_id();
         $_SESSION['expiration'] = $old_expiration;
-        $_SESSION['lastRenew'] = time();
+        $_SESSION['lastRenewal'] = time();
+        unset($_SESSION['invalidated']);
+    }
+
+    function closeSession(): void
+    {
+        $this->expireSession();
+        $this->invalidateSession();
+        $this->removeToken();
     }
 
     function didActivity(): void
