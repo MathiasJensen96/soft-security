@@ -17,8 +17,7 @@ $authenticationManager = new AuthenticationManager();
 
 $user = $userDao->getUser($_POST['email']);
 if ($user && password_verify($password, $user->getPassword())) {
-    $authenticationManager->invalidateSession();
-    $authenticationManager->regenerateSession();
+    $authenticationManager->createSession();
     $_SESSION['role'] = $user->getRole();
 
     if ($_SESSION['role'] === "admin"){

@@ -13,7 +13,7 @@ session_start();
 $authenticationManager = new AuthenticationManager();
 $authorizationManager = new AuthorizationManager();
 
-if ($authenticationManager->isExpired()) {
+if (!$authenticationManager->validateSession()) {
     echo "Your session has expired.";
     exit;
 }
