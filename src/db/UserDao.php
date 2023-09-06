@@ -24,12 +24,29 @@ class UserDao
         }
         return new users($user['email'], $user['password'], $user['role']);
     }
-    function createUser(users $user){
+
+    function createUser(users $user)
+    {
         $sql = "insert into user (`email`,`password`,`role`) values (:email, :password, :role)";
         $stmt = $this->userconn->prepare($sql);
         $stmt->bindValue('email', $user->getEmail());
         $stmt->bindValue('password', $user->getPassword());
         $stmt->bindValue('role', $user->getRole());
         return $stmt->execute();
+    }
+
+    function updateUser(string $newEmail, string $newRole, string $oldEmail)
+    {
+        $stm = $this->adminconn->prepare("update user set email = ?, role = ? where email = ?");
+        $stm->execute([$newEmail, $newRole, $oldEmail]);
+        //TODO: DER SKAL MÅSKE LAVES NOGET CASCADING SÅ HVIS EN USER HAR 
+        // NOGLE ORDRE SÅ SKAL EMAIL OGSÅ ÆNDRES DERINDE?
+    }
+
+    function deleteUser(string $email){
+        $stm = $this->adminconn->prepare("delete from user where email = ?");
+        $stm->bindValue('email', $email);
+        $stm->execute();
+        //TODO: IGEN, DER SKAL MÅSKE LAVES NOGET CASCADING FOR AT FJERNE ALT OM USER
     }
 }
