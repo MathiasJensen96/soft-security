@@ -37,6 +37,9 @@ if (!$authorizationManager->requireRole('admin')) {
             if ($userDao->getUser($email)) {
 
                 $userDao->updateUser($newEmail, $role, $email);
+                $updatedUser = $userDao->getUser($newEmail);
+                http_response_code(200);
+                return $updatedUser; 
             } else {
 
                 echo "no user: " . $email . " exists";
@@ -51,6 +54,7 @@ if (!$authorizationManager->requireRole('admin')) {
             if ($userDao->getUser($deleteUserEmail)) {
 
                 $userDao->deleteUser($deleteUserEmail);
+                return http_response_code(200);
             } else {
 
                 echo "no user: " . $deleteUserEmail . " exists";
