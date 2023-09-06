@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../security/AuthorizationManager.php';
-include '../db/UserDao.php';
+include __DIR__.'/../db/UserDao.php';
 
 use security\AuthorizationManager;
 
@@ -13,15 +13,17 @@ if (!$authorizationManager->requireRole('admin')) {
     return http_response_code(403);
 } else {
     $userDao = new UserDao;
-    echo "Welcome, admin.";
+    //echo "Welcome, admin.";
     // LAV UPDATE USER FUNKTION HER
-    if ($_SERVER["REQUEST_METHOD"] === "PUT") {
-        $email = $_PUT['email']; // $_PUT findes ikke som superglobal?
-        $role = $_PUT['role'];
-        $newEmail = $_PUT['newEmail'];
-        $userDao->updateUser($email, $role, $newEmail);
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $email = $_POST['email']; // $_PUT findes ikke som superglobal?
+        $role = $_POST['role'];
+        $newEmail = $_POST['newEmail'];
+        $userDao->updateUser($newEmail, $role, $email);
+        
     }
-    
+
     // LAV DELETE USER FUNKTION HER
-    if ($_SERVER["REQUEST_METHOD"] === "DELETE") {} 
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    }
 }
