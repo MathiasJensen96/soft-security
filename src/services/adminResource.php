@@ -25,39 +25,42 @@ if (!$authorizationManager->requireRole('admin')) {
     //echo "Welcome, admin.";
 
 
-    // update og delete skal over i deres egen fil
-    // de virker men de er lidt scuffed fordi de er i samme fil
-
-    // LAV UPDATE USER FUNKTION HER
+    // UPDATE USER FUNKTIONALITET HER
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $email = $_POST['email']; // $_PUT findes ikke som superglobal?
-        $role = $_POST['role'];
-        $newEmail = $_POST['newEmail'];
-        if (!empty($email) && !empty($role) && !empty($newEmail)) {
-            if ($userDao->getUser($email)) {
+        if (isset($_POST['update'])) {
 
-                $userDao->updateUser($newEmail, $role, $email);
-                $updatedUser = $userDao->getUser($newEmail);
-                http_response_code(200);
-                return $updatedUser; 
-            } else {
+            $email = $_POST['email'];
+            $role = $_POST['role'];
+            $newEmail = $_POST['newEmail'];
+            if (!empty($email) && !empty($role) && !empty($newEmail)) {
+                if ($userDao->getUser($email)) {
 
-                echo "no user: " . $email . " exists";
+                    $userDao->updateUser($newEmail, $role, $email);
+                    $updatedUser = $userDao->getUser($newEmail);
+                    http_response_code(200);
+                    return $updatedUser;
+                } else {
+
+                    echo "no user: " . $email . " exists";
+                }
             }
         }
     }
 
-    // LAV DELETE USER FUNKTION HER
+    // DELETE USER FUNKTIONALITET HER
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $deleteUserEmail = $_POST['deleteEmail'];
-        if (!empty($deleteUserEmail)) {
-            if ($userDao->getUser($deleteUserEmail)) {
+        if (isset($_POST['delete'])) {
 
-                $userDao->deleteUser($deleteUserEmail);
-                return http_response_code(200);
-            } else {
+            $deleteUserEmail = $_POST['deleteEmail'];
+            if (!empty($deleteUserEmail)) {
+                if ($userDao->getUser($deleteUserEmail)) {
 
-                echo "no user: " . $deleteUserEmail . " exists";
+                    $userDao->deleteUser($deleteUserEmail);
+                    return http_response_code(200);
+                } else {
+
+                    echo "no user: " . $deleteUserEmail . " exists";
+                }
             }
         }
     }

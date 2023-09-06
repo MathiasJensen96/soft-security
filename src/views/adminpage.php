@@ -53,7 +53,7 @@
                 <input type="text" placeholder="Enter new user role" name="role" >
                 <label>New email : </label>
                 <input type="text" placeholder="Enter new user email" name="newEmail" >
-                <button type="submit">Update</button>
+                <button type="submit" name="update">Update</button>
             </div>
         </form>
 
@@ -62,7 +62,7 @@
             <div class="container">
                 <label>User email to delete: </label>
                 <input type="text" placeholder="Enter Email" name="deleteEmail" >
-                <button type="submit">Terminate</button>
+                <button type="submit" name="delete">Terminate</button>
             </div>
         </form>
 
