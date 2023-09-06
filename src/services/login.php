@@ -17,4 +17,5 @@ if ($user && password_verify($password, $user->getPassword())) {
     echo "<h1>Welcome</h1>";
 } else {
     echo 'Incorrect username or password.';
+    //TODO: LAV NOGET LOGGING HER FOR AT VÆRE MERE SIKKER
 }

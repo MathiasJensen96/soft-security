@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $user = new users($email, $pword, "user");
 
         if ($userDao->getUser($user->getEmail())) {
-            echo "A user with that email already exists";
+            echo "Something went wrong";
             return http_response_code(409);
         } else {
             if ($userDao->createUser($user)) {
