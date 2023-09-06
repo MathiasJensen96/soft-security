@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($email) || empty($password)) {
         return http_response_code(400);
     } else {
-        $pword = password_hash($password, PASSWORD_DEFAULT);
+        $pword = password_hash($password, PASSWORD_ARGON2ID);
         $user = new users($email, $pword, "user");
 
         if ($userDao->getUser($user->getEmail())) {
