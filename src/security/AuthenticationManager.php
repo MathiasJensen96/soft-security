@@ -38,8 +38,8 @@ class AuthenticationManager
 
     function createSession(): void
     {
-        $this->renewSession();
         $_SESSION['expiration'] = time() + self::ABSOLUTE_EXPIRATION;
+        $this->renewSession();
         $this->didActivity();
     }
 
