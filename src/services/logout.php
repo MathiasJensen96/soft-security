@@ -1,5 +1,10 @@
 <?php
+
+require_once __DIR__ . '/../security/AuthenticationManager.php';
+
+use security\AuthenticationManager;
+
 session_start();
 
-$_SESSION['expiration'] = time() + 10;
-setcookie(session_name(), "");
+$authenticationManager = new AuthenticationManager();
+$authenticationManager->invalidateSession();
