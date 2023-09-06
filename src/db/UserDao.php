@@ -45,8 +45,8 @@ class UserDao
 
     function deleteUser(string $email){
         $stm = $this->adminconn->prepare("delete from user where email = ?");
-        $stm->bindValue('email', $email);
-        return $stm->execute();
+        //$stm->bindValue('email', $email);
+        $stm->execute([$email]);
         //TODO: IGEN, DER SKAL MÅSKE LAVES NOGET CASCADING FOR AT FJERNE ALT OM USER
     }
 }

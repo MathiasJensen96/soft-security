@@ -48,20 +48,20 @@
         <form method="POST" action="/update-users/$id">
             <div class="container">
                 <label>Old email : </label>
-                <input type="text" placeholder="Enter user Email" name="email" required>
+                <input type="text" placeholder="Enter user Email" name="email" >
                 <label>Role : </label>
-                <input type="text" placeholder="Enter new user role" name="role" required>
+                <input type="text" placeholder="Enter new user role" name="role" >
                 <label>New email : </label>
-                <input type="text" placeholder="Enter new user email" name="newEmail" required>
+                <input type="text" placeholder="Enter new user email" name="newEmail" >
                 <button type="submit">Update</button>
             </div>
         </form>
 
         <h1>Delete user here</h1>
-        <form method="POST" action="/delete-users/{id}">
+        <form method="POST" action="/delete-users/$id">
             <div class="container">
                 <label>User email to delete: </label>
-                <input type="text" placeholder="Enter Email" name="email" required>
+                <input type="text" placeholder="Enter Email" name="deleteEmail" >
                 <button type="submit">Terminate</button>
             </div>
         </form>
