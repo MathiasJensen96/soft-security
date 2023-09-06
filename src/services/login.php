@@ -1,4 +1,9 @@
-<?php include __DIR__ . "/../db/UserDao.php";
+<?php
+
+require_once __DIR__ . "/../db/UserDao.php";
+require_once __DIR__ . '/../security/AuthenticationManager.php';
+
+use security\AuthenticationManager;
 
 session_start();
 
@@ -8,10 +13,12 @@ if (empty($_POST['password'])) {
 $password = $_POST['password'];
 
 $userDao = new UserDao();
+$authenticationManager = new AuthenticationManager();
 
 $user = $userDao->getUser($_POST['email']);
 if ($user && password_verify($password, $user->getPassword())) {
-    session_regenerate_id();
+    $authenticationManager->invalidateSession();
+    $authenticationManager->regenerateSession();
     $_SESSION['role'] = $user->getRole();
 
     if ($_SESSION['role'] === "admin"){
