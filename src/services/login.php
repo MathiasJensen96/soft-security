@@ -13,10 +13,10 @@ $user = $userDao->getUser($_POST['email']);
 if ($user && password_verify($password, $user->getPassword())) {
     session_regenerate_id();
     $_SESSION['role'] = $user->getRole();
+
     if ($_SESSION['role'] === "admin"){
-        header("Location: ../views/adminpage");
+        header("Location: /adminpage");
     }
-    echo "<h1>Welcome</h1>";
 } else {
     echo 'Incorrect username or password.';
     //TODO: LAV NOGET LOGGING HER FOR AT VÆRE MERE SIKKER

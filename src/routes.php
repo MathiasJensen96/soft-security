@@ -14,6 +14,6 @@ get('/products/$id', 'views/oneProduct.php');
 post('/products', 'views/createProduct.php');
 get('/orders', 'views/allOrders.php');
 get('/orders/$id', 'views/oneOrder.php');
-get('/views/adminpage', 'views/adminpage.php');
+get('/adminpage', 'controllers/adminPageController.php');
 get('/admin', 'services/adminResource.php');
 any('/404','views/404.php');
