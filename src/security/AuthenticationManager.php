@@ -2,6 +2,24 @@
 
 namespace security;
 
+/**
+ * As per PHP documentation, we manage sessions with timestamps.
+ *
+ * There are 4 ways for a session to expire:
+ * 1. Absolute expiration: the session expires after a set amount of time.
+ * 2. Idle expiration: the session expires after a set amount of time of inactivity.
+ * 3. Renewal: the session is renewed after a set amount of time and the old session is expired and invalidated.
+ * 4. Manual logout.
+ *
+ * Renewal is independent of the other two. It does not extend the absolute expiration time.
+ *
+ * Renewal narrows the window an attacker has to do something malicious with a stolen session. After a time, the session in invalidated.
+ * If the legitimate user uses that invalidated session, that signals an attack, and we log the event.
+ * We also want to invalidate all the user's sessions.
+ *
+ * Manual expiration gives the session a grace period before it expires. This is per the PHP documentation.
+ * It prevents race conditions and allows outstanding requests to finish. We log the event just in case.
+ */
 class AuthenticationManager
 {
     const ABSOLUTE_EXPIRATION = 60 * 60 * 4; // 4 hours
