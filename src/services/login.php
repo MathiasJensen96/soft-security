@@ -26,5 +26,5 @@ if ($user && password_verify($password, $user->getPassword())) { // Verifying pa
     }
 } else {
     echo 'Incorrect username or password.';
-    error_log("|" . $_SERVER['HTTP_CLIENT_IP'] . "| Attempted login to user: " . $user->getEmail());
+    error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| Attempted login to user: " . $user->getEmail());
 }
