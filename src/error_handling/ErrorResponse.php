@@ -13,6 +13,5 @@ class ErrorResponse
         http_response_code($code);
         header('Content-Type: application/json');
         echo json_encode(new ErrorResponse($code, $message));
-        exit;
     }
 }

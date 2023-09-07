@@ -1,6 +1,9 @@
 <?php
 
 require_once __DIR__ . '/router.php';
+require_once __DIR__ . '/error_handling/exceptionHandler.php';
+
+set_exception_handler('exceptionHandler');
 
 get('/', 'views/index.php');
 get('/login', 'views/login.php');

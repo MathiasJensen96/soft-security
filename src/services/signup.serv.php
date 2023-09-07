@@ -17,10 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // validates input
     if (empty($email) || empty($password)) {
         ErrorResponse::makeErrorResponse(400, "Email and password must be filled out");
+        exit;
     } else if (!$validator->email($email)) {
         ErrorResponse::makeErrorResponse(400, "Invalid email");
+        exit;
     } else if (!$validator->complexPassword($password)) {
         ErrorResponse::makeErrorResponse(400, $validator::PASSWORD_RULES);
+        exit;
     } else {
         $hashed = password_hash($password, PASSWORD_ARGON2ID);
         $user = new users($email, $hashed, "user");
@@ -28,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Checks if the user already exists
         if ($userDao->getUser($user->getEmail())) {
             ErrorResponse::makeErrorResponse(409, "A user with that email already exists");
+            exit;
         } else {
             if ($userDao->createUser($user)) {
                 http_response_code(201);
@@ -35,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 //TODO: ERROR HANDLING
                 ErrorResponse::makeErrorResponse(500, "Something went wrong");
+                exit;
             }
         }
     }
