@@ -19,6 +19,7 @@ if (!$authenticationManager->validateSession()) {
 }
 if (!$authorizationManager->requireRole('admin')) {
     echo "You are not authorised!";
+    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to use admin endpoint");
     return http_response_code(403);
 } else {
     $userDao = new UserDao;
@@ -34,7 +35,7 @@ if (!$authorizationManager->requireRole('admin')) {
             $user = $userDao->getUser($userEmail);
             echo json_encode($user, JSON_PRETTY_PRINT);
         } else {
-
+            error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find a non-existent user: ". $userEmail);
             echo "User doesn't exist";
         }
         // }
@@ -55,7 +56,7 @@ if (!$authorizationManager->requireRole('admin')) {
                     http_response_code(200);
                     return $updatedUser;
                 } else {
-
+                    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
                     echo "no user: " . $email . " exists";
                 }
             }
@@ -73,7 +74,7 @@ if (!$authorizationManager->requireRole('admin')) {
                     $userDao->deleteUser($deleteUserEmail);
                     return http_response_code(200);
                 } else {
-
+                    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $deleteUserEmail);
                     echo "no user: " . $deleteUserEmail . " exists";
                 }
             }
