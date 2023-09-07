@@ -79,7 +79,9 @@ class AuthenticationManager
 
     function closeSession(): void
     {
-        $this->expireSession();
+        if (empty($_SESSION['invalidated']) && !$this->isExpired()) {
+            $this->expireSession();
+        }
         $this->invalidateSession();
         $this->removeToken();
     }
