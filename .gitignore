@@ -12,8 +12,9 @@ composer.phar
 ### dotenv ###
 .env
 
-#
-.log
+# logs
+logs
+*.log
 
 ### Linux ###
 *~
