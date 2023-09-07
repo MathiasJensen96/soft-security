@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__ . "/../db/UserDao.php";
+require_once __DIR__ . "/../error_handling/ErrorResponse.php";
 require_once __DIR__ . "/../security/InputValidator.php";
 
+use error_handling\ErrorResponse;
 use security\InputValidator;
 
 $userDao = new UserDao();
@@ -14,29 +16,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // validates input
     if (empty($email) || empty($password)) {
-        echo "Email and password must be filled out";
-        return http_response_code(400);
+        ErrorResponse::makeErrorResponse(400, "Email and password must be filled out");
     } else if (!$validator->email($email)) {
-        echo "Invalid email";
-        return http_response_code(400);
+        ErrorResponse::makeErrorResponse(400, "Invalid email");
     } else if (!$validator->complexPassword($password)) {
-        echo $validator::PASSWORD_RULES;
-        return http_response_code(400);
+        ErrorResponse::makeErrorResponse(400, $validator::PASSWORD_RULES);
     } else {
         $hashed = password_hash($password, PASSWORD_ARGON2ID);
         $user = new users($email, $hashed, "user");
 
         // Checks if the user already exists
         if ($userDao->getUser($user->getEmail())) {
-            echo "A user with that email already exists";
-            return http_response_code(409);
+            ErrorResponse::makeErrorResponse(409, "A user with that email already exists");
         } else {
             if ($userDao->createUser($user)) {
-                return http_response_code(204);
+                http_response_code(201);
+                exit;
             } else {
                 //TODO: ERROR HANDLING
-                echo "Something went wrong on the server, try again later";
-                return http_response_code(500);
+                ErrorResponse::makeErrorResponse(500, "Something went wrong");
             }
         }
     }
