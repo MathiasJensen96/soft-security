@@ -19,6 +19,7 @@ $user = $userDao->getUser($_POST['email']);
 if ($user && password_verify($password, $user->getPassword())) {
     $authenticationManager->createSession();
     $_SESSION['role'] = $user->getRole();
+    $_SESSION['email'] = $user->getEmail();
 
     if ($_SESSION['role'] === "admin"){
         header("Location: /adminpage");
