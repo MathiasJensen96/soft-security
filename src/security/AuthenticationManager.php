@@ -14,7 +14,7 @@ class AuthenticationManager
             return false;
         } else if ($this->isExpired()) {
             if (!empty($_SESSION['invalidated'])) {
-                // TODO: Log that this is a possible attack
+                error_log(date('c') . ": CRITICAL! Possible attack! Invalidated session used: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
                 // TODO: Invalidate all sessions for this user
                 //   we can't do this until we track all sessions for a user
                 //   which might require a database, e.g. Redis.
@@ -23,7 +23,7 @@ class AuthenticationManager
             $this->removeToken();
             return false;
         } else if (!empty($_SESSION['invalidated'])) {
-            // TODO: Log that an action was performed in grace period after session was invalidated
+            error_log(date('c') . ": Warning! Invalidated session used during grace period before expiration: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         } else if ($this->needsRenewal()) {
             $this->renewSession();
         }
