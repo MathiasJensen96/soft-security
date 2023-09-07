@@ -16,15 +16,15 @@ $userDao = new UserDao();
 $authenticationManager = new AuthenticationManager();
 
 $user = $userDao->getUser($_POST['email']);
-if ($user && password_verify($password, $user->getPassword())) {
+if ($user && password_verify($password, $user->getPassword())) { // Verifying password
     $authenticationManager->createSession();
     $_SESSION['role'] = $user->getRole();
     $_SESSION['email'] = $user->getEmail();
 
-    if ($_SESSION['role'] === "admin"){
+    if ($_SESSION['role'] === "admin") { // Maybe not the best practise to redirect here
         header("Location: /adminpage");
     }
 } else {
     echo 'Incorrect username or password.';
-    //TODO: LAV NOGET LOGGING HER FOR AT VÆRE MERE SIKKER
+    error_log("|" . $_SERVER['HTTP_CLIENT_IP'] . "| Attempted login to user: " . $user->getEmail());
 }

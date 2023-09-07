@@ -4,6 +4,8 @@ namespace security;
 
 class InputValidator
 {
+    public const PASSWORD_RULES = "Password must be 8-64 characters long and contain uppercase, lowercase, number, and special characters";
+
     /**
      * Password rules:
      * - 8-64 characters
