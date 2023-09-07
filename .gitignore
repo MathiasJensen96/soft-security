@@ -13,7 +13,7 @@ composer.phar
 .env
 
 #
-.log
+*.log
 
 ### Linux ###
 *~
