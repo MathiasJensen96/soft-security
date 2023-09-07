@@ -20,7 +20,7 @@ button {
  form {   
         border: 3px solid #f1f1f1;   
     }   
- input[type=text], input[type=password] {   
+ input[type=email], input[type=password] {
         width: 100%;   
         margin: 8px 0;  
         padding: 12px 20px;   
@@ -48,11 +48,15 @@ button {
     <center> <h1> Login here </h1> </center>   
     <form method="POST" action="/login">  
         <div class="container">   
-            <label>Username : </label>   
-            <input type="text" placeholder="Enter Email" name="email" required>  
-            <label>Password : </label>   
-            <input type="password" placeholder="Enter Password" name="password" required>  
-            <button type="submit">Login</button>       
+            <label>
+                Email:
+                <input type="email" placeholder="Enter Email" name="email" required>
+            </label>
+            <label>
+                Password:
+                <input type="password" placeholder="Enter Password" name="password" required>
+            </label>
+            <button type="submit">Login</button>
         </div>   
     </form>     
 </body>     

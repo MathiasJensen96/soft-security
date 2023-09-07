@@ -25,7 +25,7 @@
             border: 3px solid #f1f1f1;
         }
 
-        input[type=text],
+        input[type=email],
         input[type=password] {
             width: 100%;
             margin: 8px 0;
@@ -59,10 +59,14 @@
     </center>
     <form method="POST" action="/register">
         <div class="container">
-            <label>Email : </label>
-            <input type="text" placeholder="Enter Email" name="email" required>
-            <label>Password : </label>
-            <input type="password" placeholder="Enter Password" name="password" required>
+            <label>
+                Email:
+                <input type="email" placeholder="Enter Email" name="email" required>
+            </label>
+            <label>
+                Password:
+                <input type="password" placeholder="Enter Password" name="password" required>
+            </label>
             <button type="submit">Signup</button>
         </div>
     </form>
