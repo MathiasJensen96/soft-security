@@ -26,7 +26,7 @@ echo -n password | sha256sum
 
 After obtaining the passwords:
 
-1. Set them in `.env`.
+1. Set them in `.env` (plaintext, not the hashes).
 2. Copy `conf/users.acl.example` to `conf/users.acl`.
 3. Add `><password>` or `#<hash>` to the end of each line, corresponding to the password of each user.
 
@@ -39,8 +39,11 @@ The compose override contains development configuration, such as bind mounts and
 The bind mount will copy in source code, so we can edit it directly without re-building the image, but it will also obscure that folder within the container. This will remove the dependencies installed in the image. You must therefore install the dependencies in your local project folder, so the bind mount copies them into the container.
 
 1. Install [Composer](https://getcomposer.org/).
-2. Possibly enable the Sodium PHP extension in `php.ini` (`extension=sodium`). It may be required by some JWT libraries.
-3. Stop MySQL service on host machine, if it's running on port 3306.
+2. Possibly enable the Sodium PHP extension in `php.ini` (`extension=sodium`).
+
+Currently, we don't have any external dependencies, but that may change in the future.
+
+We run the services on the default ports + 1 to avoid conflict. If that ever changes, make sure to not have servers running on port `80` and `3306`.
 
 ```bash
 composer install
