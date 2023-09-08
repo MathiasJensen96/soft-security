@@ -18,7 +18,7 @@ RUN composer install
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql
-RUN docker-php-ext-install mysqli
+RUN pecl install redis-5.3.7 && docker-php-ext-enable redis
 
 # PHP configuration
 COPY conf/php-override.ini $PHP_INI_DIR/conf.d/php-override.ini

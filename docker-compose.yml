@@ -4,9 +4,6 @@ services:
     ports:
       - "81:80"
     env_file: .env
-    networks:
-      - app
-      - db
 
   db:
     image: mysql:8.0.34
@@ -14,14 +11,10 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
       - security_db_data:/var/lib/mysql
     env_file: .env
-    networks:
-      - db
+
+  redis:
+    image: redis:alpine
+    env_file: .env
 
 volumes:
   security_db_data:
-
-networks:
-  app:
-    driver: bridge
-  db:
-    driver: bridge
