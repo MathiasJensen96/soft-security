@@ -42,7 +42,7 @@ class AuthenticationManager
             throw new NotLoggedInException();
         } else if ($this->isExpired()) {
             if (!empty($_SESSION['invalidated'])) {
-                error_log(date('c') . ": CRITICAL! Possible attack! Invalidated session used: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
+                error_log(date('c') . " - CRITICAL! Possible attack! Invalidated session used: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
                 // TODO: Invalidate all sessions for this user
                 //   we can't do this until we track all sessions for a user
                 //   which might require a database, e.g. Redis.
@@ -51,7 +51,7 @@ class AuthenticationManager
             $this->removeToken();
             throw new SessionExpiredException();
         } else if (!empty($_SESSION['invalidated'])) {
-            error_log(date('c') . ": Warning! Invalidated session used during grace period before expiration: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
+            error_log(date('c') . " - Warning! Invalidated session used during grace period before expiration: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         } else if ($this->needsRenewal()) {
             $this->renewSession();
         }
