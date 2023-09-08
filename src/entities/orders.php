@@ -4,12 +4,14 @@
         public $status;
         public $date;
         public $user_email;
+        public $orderlines = array();
 
-        function __construct($id, $status, $date, $user_email) {
+        function __construct($id, $status, $date, $user_email, $orderlines) {
                 $this->id = $id;
                 $this->status = $status;
                 $this->date = $date;
                 $this->user_email = $user_email;
+                $this->orderlines = $orderlines;
             }
 
         /**
@@ -91,5 +93,25 @@
 
                 return $this;
         }
+
+                /**
+                 * Get the value of orderlines
+                 */ 
+                public function getOrderlines()
+                {
+                                return $this->orderlines;
+                }
+
+                /**
+                 * Set the value of orderlines
+                 *
+                 * @return  self
+                 */ 
+                public function setOrderlines($orderlines)
+                {
+                                $this->orderlines = $orderlines;
+
+                                return $this;
+                }
     }
 ?>
