@@ -39,7 +39,9 @@ class AccessController
     {
         try {
             $this->authenticationManager->validateSession();
-            $this->authorizationManager->requireRole($requiredRole);
+            if (!empty($requiredRole)) {
+                $this->authorizationManager->requireRole($requiredRole);
+            }
         } catch (NotLoggedInException $e) {
             error_log(date('c') . ": Unauthenticated user " . session_id() . " tried accessing $resourceName\n",
                 3, $_ENV['ADMIN_ENDPOINT_LOG']);
