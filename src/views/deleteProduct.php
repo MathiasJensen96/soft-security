@@ -6,6 +6,8 @@ require_once __DIR__ . "/../entities/products.php";
 
 use controllers\AccessController;
 
+session_start();
+
 $accessControl = new AccessController();
 $accessControl->validateAccess('deleteProduct', 'admin');
 
