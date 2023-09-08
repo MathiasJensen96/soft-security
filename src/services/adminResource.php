@@ -16,9 +16,9 @@ $accessControl->validateAccess('admin page', 'admin');
 
 $userDao = new UserDao;
 
-// find user funktionalitet her
+// FIND USER FUNKTIONALITET HER
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    // if (isset($_POST['submit'])) {
+
     $userEmail = $_GET['userEmail'];
     if ($inputValidator->email($userEmail)) {
 
@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find a non-existent user: " . $userEmail);
         echo "User doesn't exist";
     }
-    // }
 }
 
 // UPDATE USER FUNKTIONALITET HER
@@ -47,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $updatedUser = $userDao->getUser($newEmail);
                 http_response_code(200);
                 error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " succesfully used 'update user' endpoint, updated user : " . json_encode($updatedUser) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
-                return $updatedUser;
+                echo json_encode($updatedUser);
             } else {
                 error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
                 echo "no user: " . $email . " exists";
