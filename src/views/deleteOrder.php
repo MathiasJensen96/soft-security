@@ -4,11 +4,15 @@
 <?php
     $response = array();
     $orderlines = array();
+    
+    if($userconn) {
+        $userconn->query("DELETE FROM securitydb.orderline WHERE orderId = '$id'");
+        $userconn->query("DELETE FROM securitydb.order WHERE id = '$id'");
 
-    if ($userconn) {
+
         $sql = "SELECT * FROM securitydb.order";
         $result = $userconn->query($sql);
-
+        
         if ($result) {
             header("Content-Type: JSON");
             $i = 0;
@@ -34,8 +38,8 @@
                 $i++;
             }
             echo json_encode($response, JSON_PRETTY_PRINT);
+        } else {
+            echo "Failed to delete product";
         }
-    } else {
-        echo "Failed to connect to DB";
     }
 ?>
