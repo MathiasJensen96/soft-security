@@ -7,6 +7,8 @@ require_once 'AccessController.php';
 session_start();
 
 $accessControl = new AccessController();
-$accessControl->validateAccess('admin page', 'admin');
-
-require_once __DIR__ . '/../views/adminpage.php';
+if (!$accessControl->validateAccess('admin page', 'admin', returnBool: true)) {
+    header('Location: /login');
+} else {
+    require_once __DIR__ . '/../views/adminpage.php';
+}

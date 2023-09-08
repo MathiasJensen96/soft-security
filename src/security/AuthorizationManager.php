@@ -2,10 +2,19 @@
 
 namespace security;
 
+require_once __DIR__ . '/../error_handling/InsufficientPermissionsException.php';
+
+use error_handling\InsufficientPermissionsException;
+
 class AuthorizationManager
 {
-    function requireRole(string $role): bool
+    /**
+     * @throws InsufficientPermissionsException
+     */
+    function requireRole(string $role): void
     {
-        return isset($_SESSION['role']) && $_SESSION['role'] === $role;
+        if (empty($_SESSION['role']) || $_SESSION['role'] !== $role) {
+            throw new InsufficientPermissionsException();
+        }
     }
 }
