@@ -2,6 +2,12 @@
 
 namespace security;
 
+require_once __DIR__ . '/../error_handling/NotLoggedInException.php';
+require_once __DIR__ . '/../error_handling/SessionExpiredException.php';
+
+use error_handling\NotLoggedInException;
+use error_handling\SessionExpiredException;
+
 /**
  * As per PHP documentation, we manage sessions with timestamps.
  *
@@ -26,27 +32,30 @@ class AuthenticationManager
     const IDLE_EXPIRATION = 60 * 30; // 30 minutes
     const RENEWAL_INTERVAL = 60 * 60; // 1 hour
 
-    function validateSession(): bool
+    /**
+     * @throws NotLoggedInException
+     * @throws SessionExpiredException
+     */
+    function validateSession(): void
     {
         if (empty($_SESSION['authenticated'])) {
-            return false;
+            throw new NotLoggedInException();
         } else if ($this->isExpired()) {
             if (!empty($_SESSION['invalidated'])) {
-                error_log(date('c') . ": CRITICAL! Possible attack! Invalidated session used: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
+                error_log(date('c') . " - CRITICAL! Possible attack! Invalidated session used: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
                 // TODO: Invalidate all sessions for this user
                 //   we can't do this until we track all sessions for a user
                 //   which might require a database, e.g. Redis.
             }
             $this->invalidateSession();
             $this->removeToken();
-            return false;
+            throw new SessionExpiredException();
         } else if (!empty($_SESSION['invalidated'])) {
-            error_log(date('c') . ": Warning! Invalidated session used during grace period before expiration: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
+            error_log(date('c') . " - Warning! Invalidated session used during grace period before expiration: " . session_id() . " for user: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         } else if ($this->needsRenewal()) {
             $this->renewSession();
         }
         $this->didActivity();
-        return true;
     }
 
     function isExpired(): bool
