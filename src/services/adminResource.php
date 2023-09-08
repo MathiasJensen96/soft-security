@@ -11,9 +11,9 @@ use security\InputValidator;
 session_start();
 
 $accessControl = new AccessController();
-$inputValidator = new InputValidator();
 $accessControl->validateAccess('admin page', 'admin');
 
+$inputValidator = new InputValidator();
 $userDao = new UserDao;
 
 // FIND USER FUNKTIONALITET HER
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $updatedUser = $userDao->getUser($newEmail);
                 http_response_code(200);
                 error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " succesfully used 'update user' endpoint, updated user : " . json_encode($updatedUser) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
-                echo json_encode($updatedUser);
+                echo "Updated user is: " . json_encode($updatedUser);
             } else {
                 error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
                 echo "no user: " . $email . " exists";
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($userDao->getUser($deleteUserEmail)) {
 
                 $userDao->deleteUser($deleteUserEmail);
-                error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " succesfully used 'delete user' endpoint and deleted: " . $deleteUserEmail . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
+                error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'delete user' endpoint and deleted: " . $deleteUserEmail . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
                 return http_response_code(200);
             } else {
                 error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $deleteUserEmail);
