@@ -16,7 +16,7 @@ if($userconn) {
     $result = $userconn->query($sql);
 
     if ($result) {
-        header("Content-Type: JSON");
+        header("Content-Type: application/json");
         $i = 0;
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $id = $row['id'];

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $userEmail = $_GET['userEmail'];
     if ($inputValidator->email($userEmail)) {
 
-        header("Content-Type: JSON");
+        header("Content-Type: application/json");
         $user = $userDao->getUser($userEmail);
         echo json_encode($user, JSON_PRETTY_PRINT);
         error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " succesfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);

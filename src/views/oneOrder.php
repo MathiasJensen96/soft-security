@@ -9,7 +9,7 @@
         $result = $userconn->query($sql);
 
         if ($result) {
-            header("Content-Type: JSON");
+            header("Content-Type: application/json");
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 
                 $orderlineRows = $userconn->query("SELECT * FROM securitydb.orderline WHERE orderId = '$id'");

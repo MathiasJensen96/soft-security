@@ -6,7 +6,7 @@
         $result = $userconn->query($sql);
 
         if ($result) {
-            header("Content-Type: JSON");
+            header("Content-Type: application/json");
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 
                 $product = new products($row['id'], $row['name'], $row['description'], $row['price']);

@@ -19,7 +19,7 @@ if($userconn) {
     $result = $userconn->query("SELECT * FROM securitydb.order WHERE id = '$lastID[0]'");
     
     if($result) {
-        header("Content-Type: JSON");
+        header("Content-Type: application/json");
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $orderline = new orderlines($productId, $lastID[0], $quantity);
             $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderline);
