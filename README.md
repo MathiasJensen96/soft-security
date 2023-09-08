@@ -8,6 +8,28 @@ Secrets and credentials are stored in `.env`. This file is not tracked by git, b
 2. Set those values.
 3. Rename it to `.env`.
 
+For the credentials for the Redis database, it's recommended to use Redis `ACL GENPASS` to generate a password.
+
+```shell
+docker run -d --name quick-genpass redis:alpine
+docker exec -it quick-genpass redis-cli ACL GENPASS
+docker exec -it quick-genpass redis-cli ACL GENPASS
+docker stop quick-genpass
+docker rm quick-genpass
+```
+
+If you want, you can also get the SHA256 hash of the password if you prefer to not store it in plain text.
+
+```shell
+echo -n password | sha256sum
+```
+
+After obtaining the passwords:
+
+1. Set them in `.env`.
+2. Copy `conf/users.acl.example` to `conf/users.acl`.
+3. Add `><password>` or `#<hash>` to the end of each line, corresponding to the password of each user.
+
 ## Usage
 
 Development environment:

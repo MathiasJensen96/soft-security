@@ -1,5 +1,12 @@
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,phpstorm+all,composer,dotenv,windows,macos,linux
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,phpstorm+all,composer,dotenv,windows,macos,linux
+# logs
+logs
+*.log
+
+# redis acl
+users.acl
+
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,dotenv,windows,composer,phpstorm+all,visualstudiocode,redis
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,dotenv,windows,composer,phpstorm+all,visualstudiocode,redis
 
 ### Composer ###
 composer.phar
@@ -11,11 +18,6 @@ composer.phar
 
 ### dotenv ###
 .env
-
-
-# logs
-logs
-*.log
 
 ### Linux ###
 *~
@@ -153,6 +155,11 @@ fabric.properties
 !.idea/codeStyles
 !.idea/runConfigurations
 
+### Redis ###
+# Ignore redis binary dump (dump.rdb) files
+
+*.rdb
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -198,4 +205,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,phpstorm+all,composer,dotenv,windows,macos,linux
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,dotenv,windows,composer,phpstorm+all,visualstudiocode,redis

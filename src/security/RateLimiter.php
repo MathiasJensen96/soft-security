@@ -11,10 +11,11 @@ class RateLimiter
     /**
      * @throws \RedisException
      */
-    public function __construct(private int $limit, private int $period)
+    public function __construct(private readonly int $limit, private readonly int $period)
     {
         $this->redis = new Redis();
         $this->redis->connect('redis', 6379);
+        $this->redis->auth($_ENV['REDIS_PASSWORD']);
     }
 
     /**
