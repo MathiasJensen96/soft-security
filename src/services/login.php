@@ -37,6 +37,6 @@ if ($user && password_verify($password, $user->getPassword())) { // Verifying pa
         header("Location: /adminpage");
     }
 } else {
-    echo 'Incorrect username or password.';
-    error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| Attempted login to user: " . $user->getEmail());
+    error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| Attempted login to user: " . $_POST['email']);
+    ErrorResponse::makeErrorResponse(401, "Incorrect username or password");
 }
