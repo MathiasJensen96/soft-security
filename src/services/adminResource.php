@@ -29,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             ErrorResponse::makeErrorResponse(404, "User not found with email: $userEmail");
             exit;
         }
+        error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         header("Content-Type: application/json");
         echo json_encode($user, JSON_PRETTY_PRINT);
-        error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
     } else {
         error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find user with invalid email: " . $userEmail);
         ErrorResponse::makeErrorResponse(400, "Invalid email: $userEmail");
@@ -50,14 +50,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 $userDao->updateUser($newEmail, $role, $email);
                 $updatedUser = $userDao->getUser($newEmail);
-                http_response_code(200);
                 error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'update user' endpoint, updated user : " . json_encode($updatedUser) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
-                echo "Updated user is: " . json_encode($updatedUser);
+                http_response_code(200);
+                header("Content-Type: application/json");
+                echo json_encode($updatedUser);
             } else {
                 error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
-                echo "no user: " . $email . " exists";
+                ErrorResponse::makeErrorResponse(404, "User not found with email: $userEmail");
             }
+        } else {
+            error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update user with invalid data");
+            ErrorResponse::makeErrorResponse(400, "Invalid data provided");
         }
+        exit;
     }
 }
 
@@ -69,14 +74,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $deleteUserEmail = $_POST['deleteEmail'];
         if ($inputValidator->email($deleteUserEmail)) {
             if ($userDao->getUser($deleteUserEmail)) {
-
                 $userDao->deleteUser($deleteUserEmail);
                 error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'delete user' endpoint and deleted: " . $deleteUserEmail . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
                 return http_response_code(200);
             } else {
-                error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $deleteUserEmail);
-                echo "no user: " . $deleteUserEmail . " exists";
+                error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete non-existent user: " . $deleteUserEmail);
+                ErrorResponse::makeErrorResponse(404, "User not found with email: $deleteUserEmail");
             }
+        } else {
+            error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete user with invalid email: " . $deleteUserEmail);
+            ErrorResponse::makeErrorResponse(400, "Invalid email: $deleteUserEmail");
         }
     }
 }
