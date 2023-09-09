@@ -12,6 +12,7 @@ $quantity = htmlspecialchars($_POST['quantity']);
 $email = $_SESSION['email'];
 
 if($userconn) {
+    $userconn->beginTransaction();
     $stmt = $userconn->prepare("INSERT INTO securitydb.order (date, User_email) VALUES (NOW(),?)");
     $stmt->execute([$email]);
 
@@ -29,6 +30,8 @@ if($userconn) {
         }
         $stmt = $userconn->prepare("INSERT INTO securitydb.orderline (productId, orderId, quantity) VALUES (?, ?, ?)");
         $stmt->execute([$productId, $lastID[0], $quantity]);
+        $userconn->commit();
+
         header("Content-Type: application/json");
         echo json_encode($order, JSON_PRETTY_PRINT);
     }
