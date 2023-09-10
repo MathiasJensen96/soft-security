@@ -4,14 +4,19 @@ require_once __DIR__ . "/../controllers/AccessController.php";
 require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/products.php";
 require_once __DIR__ . "/../error_handling/ErrorResponse.php";
+require_once __DIR__ . "/../security/InputValidator.php";
 
 use controllers\AccessController;
 use error_handling\ErrorResponse;
+use security\InputValidator;
 
 session_start();
 
 $accessControl = new AccessController();
 $accessControl->validateAccess('createProduct', 'admin');
+
+$validator = new InputValidator();
+$validator->product($_POST);
 
 $name = htmlspecialchars($_POST['name']);
 $description = htmlspecialchars($_POST['description']);

@@ -3,8 +3,13 @@
 require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/products.php";
 require_once __DIR__ . "/../error_handling/ErrorResponse.php";
+require_once __DIR__ . "/../security/InputValidator.php";
 
 use error_handling\ErrorResponse;
+use security\InputValidator;
+
+$validator = new InputValidator();
+$validator->id($id);
 
 if ($userconn) {
     $sql = "SELECT * FROM product WHERE id = ?";

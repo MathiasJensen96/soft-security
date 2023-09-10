@@ -3,13 +3,19 @@
 require_once __DIR__ . "/../controllers/AccessController.php";
 require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/products.php";
+require_once __DIR__ . "/../security/InputValidator.php";
 
 use controllers\AccessController;
+use security\InputValidator;
 
 session_start();
 
 $accessControl = new AccessController();
 $accessControl->validateAccess('updateProduct', 'admin');
+
+$validator = new InputValidator();
+$validator->id($id);
+$validator->product($_POST);
 
 if($adminconn) {
     $sql = "SELECT * FROM product WHERE id = '$id'";
