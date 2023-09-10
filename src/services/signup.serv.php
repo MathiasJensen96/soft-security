@@ -7,40 +7,33 @@ require_once __DIR__ . "/../security/InputValidator.php";
 use error_handling\ErrorResponse;
 use security\InputValidator;
 
-$userDao = new UserDao();
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    ErrorResponse::makeErrorResponse(405, "Method not allowed");
+    exit;
+}
+
 $validator = new InputValidator();
+$validator->credentials($_POST);
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+$email = $_POST["email"];
+$password = $_POST["password"];
 
-    // validates input
-    if (empty($email) || empty($password)) {
-        ErrorResponse::makeErrorResponse(400, "Email and password must be filled out");
-        exit;
-    } else if (!$validator->email($email)) {
-        ErrorResponse::makeErrorResponse(400, "Invalid email");
-        exit;
-    } else if (!$validator->complexPassword($password)) {
-        ErrorResponse::makeErrorResponse(400, $validator::PASSWORD_RULES);
+$userDao = new UserDao();
+
+$hashed = password_hash($password, PASSWORD_ARGON2ID);
+$user = new users($email, $hashed, "user");
+
+// Checks if the user already exists
+if ($userDao->getUser($user->getEmail())) {
+    ErrorResponse::makeErrorResponse(409, "A user with that email already exists");
+    exit;
+} else {
+    if ($userDao->createUser($user)) {
+        http_response_code(201);
         exit;
     } else {
-        $hashed = password_hash($password, PASSWORD_ARGON2ID);
-        $user = new users($email, $hashed, "user");
-
-        // Checks if the user already exists
-        if ($userDao->getUser($user->getEmail())) {
-            ErrorResponse::makeErrorResponse(409, "A user with that email already exists");
-            exit;
-        } else {
-            if ($userDao->createUser($user)) {
-                http_response_code(201);
-                exit;
-            } else {
-                //TODO: ERROR HANDLING
-                ErrorResponse::makeErrorResponse(500, "Something went wrong");
-                exit;
-            }
-        }
+        //TODO: ERROR HANDLING
+        ErrorResponse::makeErrorResponse(500, "Something went wrong");
+        exit;
     }
 }

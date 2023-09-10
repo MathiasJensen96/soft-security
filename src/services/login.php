@@ -2,20 +2,20 @@
 
 require_once __DIR__ . "/../db/UserDao.php";
 require_once __DIR__ . '/../security/AuthenticationManager.php';
+require_once __DIR__ . '/../security/InputValidator.php';
 require_once __DIR__ . '/../security/RateLimiter.php';
 require_once __DIR__ . '/../error_handling/ErrorResponse.php';
 require_once __DIR__ . '/../security/getIp.php';
 
 use error_handling\ErrorResponse;
 use security\AuthenticationManager;
+use security\InputValidator;
 use security\RateLimiter;
 
 session_start();
 
-if (empty($_POST['password'])) {
-    return http_response_code(400);
-}
-$password = $_POST['password'];
+$validator = new InputValidator();
+$validator->credentials($_POST);
 
 $rateLimiter = new RateLimiter(5, 60);
 if (!$rateLimiter->isAllowed(getIp())) {
@@ -28,7 +28,7 @@ $userDao = new UserDao();
 $authenticationManager = new AuthenticationManager();
 
 $user = $userDao->getUser($_POST['email']);
-if ($user && password_verify($password, $user->getPassword())) { // Verifying password
+if ($user && password_verify($_POST['password'], $user->getPassword())) { // Verifying password
     $authenticationManager->createSession();
     $_SESSION['role'] = $user->getRole();
     $_SESSION['email'] = $user->getEmail();
