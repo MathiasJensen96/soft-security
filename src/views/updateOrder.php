@@ -1,23 +1,43 @@
-<?php include __DIR__ . "/../db/dbconn.php"?>
-<?php include __DIR__ . "/../entities/orderlines.php"?>
 <?php
+require_once __DIR__ . "/../db/dbconn.php";
+require_once __DIR__ . "/../entities/orderlines.php";
+require_once __DIR__ . "/../error_handling/ErrorResponse.php";
+require_once __DIR__ . "/../security/InputValidator.php";
+
+use error_handling\ErrorResponse;
+use security\InputValidator;
+
+$validator = new InputValidator();
+$validator->id($id);
+
+session_start();
+
 if($userconn) {
-        $sql = "SELECT * FROM securitydb.orderline WHERE orderId = '$id'";
-        $result = $userconn->query($sql);
-        $row = $result->fetch(PDO::FETCH_ASSOC);
+    $stmt = $userconn->prepare("SELECT * FROM securitydb.order WHERE id = ?");
+    $stmt->execute([$id]);
 
-        $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
-
-        if(!empty($_POST['productId']) && !empty($_POST['quantity'])) {
-            $productId = htmlspecialchars($_POST['productId']);
-            $quantity = htmlspecialchars($_POST['quantity']);
-            if($quantity != $orderline->getQuantity()) {
-                $sql = "UPDATE securitydb.orderline SET quantity = '$quantity' WHERE productId = '$productId' AND orderId = '$id'";
-                $result = $userconn->query($sql);
-                echo "quantity was updated! ";
-            }
-        } else {
-            echo "ProductID or quantity had no input. ";
-        }
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row || ($row['User_email'] !== $_SESSION['email'] && $_SESSION['role'] !== "admin")) {
+        ErrorResponse::makeErrorResponse(404, "Order not found with id: $id");
+        exit;
     }
-?>
+
+    $stmt = $userconn->prepare("SELECT * FROM securitydb.orderline WHERE orderid = ?");
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
+
+    if(!empty($_POST['productId']) && !empty($_POST['quantity'])) {
+        $productId = htmlspecialchars($_POST['productId']);
+        $quantity = htmlspecialchars($_POST['quantity']);
+        if($quantity != $orderline->getQuantity()) {
+            $sql = "UPDATE securitydb.orderline SET quantity = ? WHERE productId = ? AND orderId = ?";
+            $stmt = $userconn->prepare($sql);
+            $stmt->execute([$quantity, $productId, $id]);
+            echo "quantity was updated! ";
+        }
+    } else {
+        echo "ProductID or quantity had no input. ";
+    }
+}
