@@ -17,7 +17,7 @@
                 $response[$i]= $product;
                 $i++;
             }
-            echo json_encode($response, JSON_PRETTY_PRINT);
+            echo json_encode($response, JSON_HEX_TAG | JSON_PRETTY_PRINT);
         }
     } else {
         echo "Failed to connect to DB";

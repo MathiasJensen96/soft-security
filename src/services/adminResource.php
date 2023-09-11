@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         header("Content-Type: application/json");
         //TODO: Maybe output encode here
-        echo json_encode($user, JSON_PRETTY_PRINT);
+        echo json_encode($user, JSON_HEX_TAG | JSON_PRETTY_PRINT);
     } else {
         error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find user with invalid email: " . $userEmail);
         ErrorResponse::makeErrorResponse(400, "Invalid email: $userEmail");
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 http_response_code(200);
                 header("Content-Type: application/json");
                 //TODO: Maybe output encode here
-                echo json_encode($updatedUser);
+                echo json_encode($updatedUser, JSON_HEX_TAG | JSON_PRETTY_PRINT);
             } else {
                 error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
                 ErrorResponse::makeErrorResponse(404, "User not found with email: $userEmail");
