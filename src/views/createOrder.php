@@ -4,8 +4,14 @@ require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/orders.php";
 require_once __DIR__ . "/../entities/users.php";
 require_once __DIR__ . "/../entities/orderlines.php";
+require_once __DIR__ . "/../security/InputValidator.php";
+
+use security\InputValidator;
 
 session_start();
+
+$validator = new InputValidator();
+$validator->orderline($_POST);
 
 $productId = htmlspecialchars($_POST['productId']);
 $quantity = htmlspecialchars($_POST['quantity']);

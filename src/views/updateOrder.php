@@ -9,6 +9,7 @@ use security\InputValidator;
 
 $validator = new InputValidator();
 $validator->id($id);
+$validator->orderline($_POST);
 
 session_start();
 

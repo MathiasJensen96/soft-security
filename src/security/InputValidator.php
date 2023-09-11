@@ -72,4 +72,17 @@ class InputValidator
             exit;
         }
     }
+
+    function orderline($formData): void
+    {
+        try {
+            v::key('productId', $this->idValidator)
+                ->key('quantity', v::intVal()->positive())
+                ->setName('orderline')
+                ->assert($formData);
+        } catch (NestedValidationException $e) {
+            ErrorResponse::makeErrorResponse(400, $e->getFullMessage());
+            exit;
+        }
+    }
 }
