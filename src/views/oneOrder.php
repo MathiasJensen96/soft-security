@@ -4,8 +4,13 @@ require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/orders.php";
 require_once __DIR__ . "/../entities/orderlines.php";
 require_once __DIR__ . "/../error_handling/ErrorResponse.php";
+require_once __DIR__ . "/../security/InputValidator.php";
 
 use error_handling\ErrorResponse;
+use security\InputValidator;
+
+$validator = new InputValidator();
+$validator->id($id);
 
 session_start();
 

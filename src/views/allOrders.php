@@ -11,7 +11,6 @@ if ($userconn) {
     $result = $userconn->query($sql);
 
     if ($result) {
-        header("Content-Type: application/json");
         $i = 0;
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $orderlines = [];
@@ -33,6 +32,7 @@ if ($userconn) {
             $response[$i]= $order;
             $i++;
         }
+        header("Content-Type: application/json");
         echo json_encode($response, JSON_PRETTY_PRINT);
     }
 } else {
