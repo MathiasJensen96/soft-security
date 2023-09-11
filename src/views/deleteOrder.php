@@ -1,18 +1,23 @@
 <?php
 
+require_once __DIR__ . "/../controllers/AccessController.php";
 require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/orders.php";
 require_once __DIR__ . "/../entities/orderlines.php";
 require_once __DIR__ . "/../error_handling/ErrorResponse.php";
 require_once __DIR__ . "/../security/InputValidator.php";
 
+use controllers\AccessController;
 use error_handling\ErrorResponse;
 use security\InputValidator;
 
+session_start();
+
+$accessControl = new AccessController();
+$accessControl->validateAccess('deleteOrder');
+
 $validator = new InputValidator();
 $validator->id($id);
-
-session_start();
 
 if ($userconn) {
     $response = [];
@@ -34,6 +39,7 @@ if ($userconn) {
     $stmt->execute([$id]);
     $userconn->commit();
 
+    // TODO: if we want to get all orders after deleting one, we need idor prevention.
     $sql = "SELECT * FROM securitydb.order";
     $result = $userconn->query($sql);
 
