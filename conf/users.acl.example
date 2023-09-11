@@ -1,2 +1,2 @@
-user default on ~* &* +@all -@dangerous
-user admin on ~* &* +@all
+user default on ~* &* +@all -@dangerous > radisuser
+user admin on ~* &* +@all > radisadmin

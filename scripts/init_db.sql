@@ -15,8 +15,8 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 CREATE TABLE `order` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `status` varchar(45) DEFAULT NULL,
-  `date` varchar(45) DEFAULT NULL,
+  `status` varchar(45) DEFAULT 'pending',
+  `date` date DEFAULT NULL,
   `User_email` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Order_User1_idx` (`User_email`),
