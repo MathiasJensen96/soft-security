@@ -39,6 +39,6 @@ if($userconn) {
         $userconn->commit();
 
         header("Content-Type: application/json");
-        echo json_encode($order, JSON_PRETTY_PRINT);
+        echo json_encode($order, JSON_HEX_TAG | JSON_PRETTY_PRINT);
     }
 }
