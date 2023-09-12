@@ -24,14 +24,19 @@ get('/orders/$id', 'views/oneOrder.php');
 get('/orders/$id/delete', 'views/deleteOrder.php');
 get('/adminpage', 'controllers/adminPageController.php');
 get('/users/$id', 'services/getUser.php');
-post('/update-users/$id','services/adminResource.php');
-post('/delete-users/$id', 'services/adminResource.php');
+post('/users/$id','services/updateUser.php');
+get('/users/$id/delete', 'services/deleteUser.php');
 get('/admin', 'services/adminResource.php');
 
 // frontend redirects
+// 307 and 308 don't change the request method, just resubmits the request
 get('/getUser', function () {
     $id = $_GET['id'];
     header("Location: /users/$id");
+});
+post('/updateUser', function () {
+    $id = $_POST['id'];
+    header("Location: /users/$id", true, 307);
 });
 get('/getProduct', function () {
     $id = $_GET['id'];

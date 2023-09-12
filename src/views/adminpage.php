@@ -55,7 +55,7 @@
         </form>
 
         <h1>Update user information here</h1>
-        <form method="POST" action="/update-users/$id">
+        <form method="POST" action="/updateUser">
             <div class="container">
                 <label>
                     User ID:

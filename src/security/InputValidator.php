@@ -59,6 +59,19 @@ class InputValidator
         }
     }
 
+    function user($formData): void
+    {
+        try {
+            v::key('email', $this->emailValidator)
+                ->key('role', v::stringType()->in(['user', 'admin']))
+                ->setName('user')
+                ->assert($formData);
+        } catch (NestedValidationException $e) {
+            ErrorResponse::makeErrorResponse(400, $e->getFullMessage());
+            exit;
+        }
+    }
+
     function product($formData): void
     {
         try {

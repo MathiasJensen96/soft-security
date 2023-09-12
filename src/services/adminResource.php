@@ -18,35 +18,6 @@ $accessControl->validateAccess('admin page', 'admin');
 $inputValidator = new InputValidator();
 $userDao = new UserDao;
 
-// UPDATE USER FUNKTIONALITET HER
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST['update'])) {
-
-        $id = $_POST['id'];
-        $email = $_POST['email'];
-        $role = $_POST['role'];
-        if ($inputValidator->email($email) && !empty($role)) {
-            if ($userDao->getUserById($id)) {
-
-                $userDao->updateUser($id, $email, $role);
-                $updatedUser = $userDao->getUserById($id);
-                error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'update user' endpoint, updated user : " . json_encode($updatedUser) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
-                http_response_code(200);
-                header("Content-Type: application/json");
-
-                echo json_encode($updatedUser, JSON_HEX_TAG | JSON_PRETTY_PRINT);
-            } else {
-                error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update information of non-existent user: " . $email);
-                ErrorResponse::makeErrorResponse(404, "User not found with id: $id");
-            }
-        } else {
-            error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update user with invalid data");
-            ErrorResponse::makeErrorResponse(400, "Invalid data provided");
-        }
-        exit;
-    }
-}
-
 
 // DELETE USER FUNKTIONALITET HER
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
