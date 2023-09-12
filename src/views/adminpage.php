@@ -47,8 +47,10 @@
         <h1>Find user information here</h1>
         <form method="GET" action="/users/$id">
             <div class="container">
-                <label>Get user by email : </label>
-                <input type="text" placeholder="Enter user Email" name="userEmail" >
+                <label>
+                    Get user by ID:
+                    <input type="text" placeholder="Enter user ID" name="id" >
+                </label>
                 <button type="submit">Get user</button>
             </div>
         </form>
@@ -56,12 +58,18 @@
         <h1>Update user information here</h1>
         <form method="POST" action="/update-users/$id">
             <div class="container">
-                <label>Old email : </label>
-                <input type="text" placeholder="Enter user Email" name="email" >
-                <label>Role : </label>
-                <input type="text" placeholder="Enter new user role" name="role" >
-                <label>New email : </label>
-                <input type="text" placeholder="Enter new user email" name="newEmail" >
+                <label>
+                    User ID:
+                    <input type="text" placeholder="Enter user ID" name="id" >
+                </label>
+                <label>
+                    Role:
+                    <input type="text" placeholder="Enter new user role" name="role" >
+                </label>
+                <label>
+                    New email:
+                    <input type="text" placeholder="Enter new user email" name="email" >
+                </label>
                 <button type="submit" name="update">Update</button>
             </div>
         </form>
@@ -69,8 +77,10 @@
         <h1>Delete user here</h1>
         <form method="POST" action="/delete-users/$id">
             <div class="container">
-                <label>User email to delete: </label>
-                <input type="text" placeholder="Enter Email" name="deleteEmail" >
+                <label>
+                    ID of user to delete:
+                    <input type="text" placeholder="Enter ID" name="id" >
+                </label>
                 <button type="submit" name="delete">Terminate</button>
             </div>
         </form>

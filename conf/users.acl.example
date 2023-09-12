@@ -1,0 +1,2 @@
+user default on ~* &* +@all -@dangerous
+user admin on ~* &* +@all

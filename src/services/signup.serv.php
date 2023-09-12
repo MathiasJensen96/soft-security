@@ -24,7 +24,7 @@ $hashed = password_hash($password, PASSWORD_ARGON2ID);
 $user = new users($email, $hashed, "user");
 
 // Checks if the user already exists
-if ($userDao->getUser($user->getEmail())) {
+if ($userDao->getUserByEmail($user->getEmail())) {
     ErrorResponse::makeErrorResponse(409, "A user with that email already exists");
     exit;
 } else {

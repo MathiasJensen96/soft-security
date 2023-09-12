@@ -1,18 +1,18 @@
 <?php
     class orders {
-        public $id;
-        public $status;
+        public int $id;
+        public string $status;
         public $date;
-        public $user_email;
+        public int $user;
         public $orderlines = array();
 
-        function __construct($id, $status, $date, $user_email, $orderlines) {
-                $this->id = $id;
-                $this->status = $status;
-                $this->date = $date;
-                $this->user_email = $user_email;
-                $this->orderlines = $orderlines;
-            }
+        function __construct($id, $status, $date, $user, $orderlines) {
+            $this->id = $id;
+            $this->status = $status;
+            $this->date = $date;
+            $this->user = $user;
+            $this->orderlines = $orderlines;
+        }
 
         /**
          * Get the value of id
@@ -77,9 +77,9 @@
         /**
          * Get the value of user_email
          */ 
-        public function getUser_email()
+        public function getUser()
         {
-                return $this->user_email;
+                return $this->user;
         }
 
         /**
@@ -87,31 +87,31 @@
          *
          * @return  self
          */ 
-        public function setUser_email($user_email)
+        public function setUser($user)
         {
-                $this->user_email = $user_email;
+                $this->user = $user;
 
                 return $this;
         }
 
-                /**
-                 * Get the value of orderlines
-                 */ 
-                public function getOrderlines()
-                {
-                                return $this->orderlines;
-                }
+        /**
+         * Get the value of orderlines
+         */
+        public function getOrderlines()
+        {
+                        return $this->orderlines;
+        }
 
-                /**
-                 * Set the value of orderlines
-                 *
-                 * @return  self
-                 */ 
-                public function setOrderlines($orderlines)
-                {
-                                $this->orderlines = $orderlines;
+        /**
+         * Set the value of orderlines
+         *
+         * @return  self
+         */
+        public function setOrderlines($orderlines)
+        {
+                        $this->orderlines = $orderlines;
 
-                                return $this;
-                }
+                        return $this;
+        }
     }
 ?>

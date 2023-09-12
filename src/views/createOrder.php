@@ -1,26 +1,30 @@
 <?php
 
+require_once __DIR__ . "/../controllers/AccessController.php";
 require_once __DIR__ . "/../db/dbconn.php";
 require_once __DIR__ . "/../entities/orders.php";
 require_once __DIR__ . "/../entities/users.php";
 require_once __DIR__ . "/../entities/orderlines.php";
 require_once __DIR__ . "/../security/InputValidator.php";
 
+use controllers\AccessController;
 use security\InputValidator;
 
 session_start();
+
+$accessControl = new AccessController();
+$accessControl->validateAccess('createOrder');
 
 $validator = new InputValidator();
 $validator->orderlines($_POST);
 
 $orderlines = $_POST['orderlines'];
 $orderline = array();
-$email = $_SESSION['email'];
 
 if($userconn) {
     $userconn->beginTransaction();
-    $stmt = $userconn->prepare("INSERT INTO securitydb.order (date, User_email) VALUES (NOW(),?)");
-    $stmt->execute([$email]);
+    $stmt = $userconn->prepare("INSERT INTO securitydb.order (date, user) VALUES (NOW(),?)");
+    $stmt->execute([$_SESSION['id']]);
 
     $sql = "SELECT LAST_INSERT_ID()";
     $getLastId = $userconn->query($sql);
@@ -37,7 +41,7 @@ if($userconn) {
             $stmt->execute([$newOrderline->getProductId(), $lastID[0], $newOrderline->getQuantity()]);
             array_push($orderline, $newOrderline);
         }
-        $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderline);
+        $order = new orders($row['id'], $row['status'], $row['date'], $row['user'], $orderline);
         $userconn->commit();
 
         header("Content-Type: application/json");

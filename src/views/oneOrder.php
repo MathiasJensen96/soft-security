@@ -6,6 +6,7 @@ require_once __DIR__ . "/../entities/orders.php";
 require_once __DIR__ . "/../entities/orderlines.php";
 require_once __DIR__ . "/../error_handling/ErrorResponse.php";
 require_once __DIR__ . "/../security/InputValidator.php";
+require_once __DIR__ . "/../security/outputEncoder.php";
 
 use controllers\AccessController;
 use error_handling\ErrorResponse;
@@ -31,7 +32,7 @@ if ($userconn) {
     }
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$row || ($row['User_email'] !== $_SESSION['email'] && $_SESSION['role'] !== "admin")) {
+    if (!$row || ($row['user'] !== $_SESSION['id'] && $_SESSION['role'] !== "admin")) {
         error_log(date('c') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to view order with id: " . $id . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         ErrorResponse::makeErrorResponse(404, "Order not found with id: $id");
         exit;
@@ -47,7 +48,7 @@ if ($userconn) {
         $orderlines[] = $orderline;
     }
 
-    $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderlines);
+    $order = new orders($row['id'], $row['status'], $row['date'], $row['user'], $orderlines);
     header("Content-Type: application/json");
     echo json_encode($order, JSON_HEX_TAG | JSON_PRETTY_PRINT);
 

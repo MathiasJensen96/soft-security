@@ -20,9 +20,9 @@ if ($userconn) {
         $sql = "SELECT * FROM securitydb.order";
         $stmt = $userconn->query($sql);
     } else {
-        $sql = "SELECT * FROM securitydb.order WHERE User_email = ?";
+        $sql = "SELECT * FROM securitydb.order WHERE user = ?";
         $stmt = $userconn->prepare($sql);
-        $stmt->execute([$_SESSION['email']]);
+        $stmt->execute([$_SESSION['id']]);
     }
 
     $i = 0;
@@ -41,7 +41,7 @@ if ($userconn) {
             $k++;
         }
 
-        $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderlines);
+        $order = new orders($row['id'], $row['status'], $row['date'], $row['user'], $orderlines);
 
         $response[$i]= $order;
         $i++;
