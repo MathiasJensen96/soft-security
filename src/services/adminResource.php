@@ -5,7 +5,6 @@ require_once __DIR__ . '/../db/UserDao.php';
 require_once __DIR__ . '/../error_handling/ErrorResponse.php';
 require_once __DIR__ . '/../security/InputValidator.php';
 
-
 use controllers\AccessController;
 use error_handling\ErrorResponse;
 use security\InputValidator;
