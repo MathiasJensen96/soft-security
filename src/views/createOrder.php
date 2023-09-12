@@ -11,7 +11,7 @@ use security\InputValidator;
 session_start();
 
 $validator = new InputValidator();
-//$validator->orderline($_POST);
+$validator->orderlines($_POST);
 
 $orderlines = $_POST['orderlines'];
 $orderline = array();
