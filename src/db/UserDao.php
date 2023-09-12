@@ -14,7 +14,18 @@ class UserDao
         $this->adminconn = $adminconn;
     }
 
-    function getUser(string $email)
+    function getUserById(int $id): ?users
+    {
+        $stm = $this->userconn->prepare("select * from user where id = ?");
+        $stm->execute([$id]);
+        $user = $stm->fetch(PDO::FETCH_ASSOC);
+        if (!$user) {
+            return null;
+        }
+        return new users($user['email'], $user['password'], $user['role'], $user['id']);
+    }
+
+    function getUserByEmail(string $email): ?users
     {
         $stm = $this->userconn->prepare("select * from user where email = ?");
         $stm->execute([$email]);
@@ -22,7 +33,7 @@ class UserDao
         if (!$user) {
             return null;
         }
-        return new users($user['email'], $user['password'], $user['role']);
+        return new users($user['email'], $user['password'], $user['role'], $user['id']);
     }
 
     function createUser(users $user)
@@ -35,18 +46,17 @@ class UserDao
         return $stmt->execute();
     }
 
-    function updateUser(string $newEmail, string $newRole, string $oldEmail)
+    function updateUser(int $id, string $newEmail, string $newRole)
     {
-        $stm = $this->adminconn->prepare("update `user` set `email` = ?, `role` = ? where `email` = ?");
-        return $stm->execute([$newEmail, $newRole, $oldEmail]);
+        $stm = $this->adminconn->prepare("update `user` set `email` = ?, `role` = ? where `id` = ?");
+        return $stm->execute([$newEmail, $newRole, $id]);
         //TODO: DER SKAL MÅSKE LAVES NOGET CASCADING SÅ HVIS EN USER HAR 
         // NOGLE ORDRE SÅ SKAL EMAIL OGSÅ ÆNDRES DERINDE?
     }
 
-    function deleteUser(string $email){
-        $stm = $this->adminconn->prepare("delete from user where email = ?");
-        //$stm->bindValue('email', $email);
-        $stm->execute([$email]);
+    function deleteUser(int $id){
+        $stm = $this->adminconn->prepare("delete from user where id = ?");
+        $stm->execute([$id]);
         //TODO: IGEN, DER SKAL MÅSKE LAVES NOGET CASCADING FOR AT FJERNE ALT OM USER
     }
 }

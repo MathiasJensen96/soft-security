@@ -27,7 +27,7 @@ if (!$rateLimiter->isAllowed(getIp())) {
 $userDao = new UserDao();
 $authenticationManager = new AuthenticationManager();
 
-$user = $userDao->getUser($_POST['email']);
+$user = $userDao->getUserByEmail($_POST['email']);
 if ($user && password_verify($_POST['password'], $user->getPassword())) { // Verifying password
     $authenticationManager->createSession();
     $_SESSION['role'] = $user->getRole();

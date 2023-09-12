@@ -1,12 +1,13 @@
 <?php
     class users {
         //Properties
-        public $email;
-        public $password;
-        public $role;
+        public int $id;
+        public string $email;
+        public string $password;
+        public string $role;
 
         //Methods
-        public function __construct($email, $password, $role) {
+        public function __construct($email, $password, $role, int $id = null) {
             $this->email = $email;
             $this->password = $password;
             $this->role = $role;
@@ -15,7 +16,7 @@
         /**
          * Get the value of email
          */ 
-        public function getEmail()
+        public function getEmail(): string
         {
                 return $this->email;
         }
@@ -35,7 +36,7 @@
         /**
          * Get the value of password
          */ 
-        public function getPassword()
+        public function getPassword(): string
         {
                 return $this->password;
         }
@@ -55,7 +56,7 @@
         /**
          * Get the value of role
          */ 
-        public function getRole()
+        public function getRole(): string
         {
                 return $this->role;
         }
