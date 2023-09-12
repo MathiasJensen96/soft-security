@@ -37,7 +37,6 @@
 </head>
 
 <body>
-
     <div class="topnav">
         <a href="/logout">Logout</a>
     </div>
@@ -45,7 +44,7 @@
         <h1>Hello World!</h1>
 
         <h1>Find user information here</h1>
-        <form method="GET" action="/users/$id">
+        <form method="GET" action="/getUser">
             <div class="container">
                 <label>
                     Get user by ID:

@@ -23,12 +23,16 @@ post('/orders/$id', 'views/updateOrder.php');
 get('/orders/$id', 'views/oneOrder.php');
 get('/orders/$id/delete', 'views/deleteOrder.php');
 get('/adminpage', 'controllers/adminPageController.php');
-get('/users/$id', 'services/adminResource.php');
+get('/users/$id', 'services/getUser.php');
 post('/update-users/$id','services/adminResource.php');
 post('/delete-users/$id', 'services/adminResource.php');
 get('/admin', 'services/adminResource.php');
 
 // frontend redirects
+get('/getUser', function () {
+    $id = $_GET['id'];
+    header("Location: /users/$id");
+});
 get('/getProduct', function () {
     $id = $_GET['id'];
     header("Location: /products/$id");
