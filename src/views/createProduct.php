@@ -18,9 +18,9 @@ $accessControl->validateAccess('createProduct', 'admin');
 $validator = new InputValidator();
 $validator->product($_POST);
 
-$name = htmlspecialchars($_POST['name']);
-$description = htmlspecialchars($_POST['description']);
-$price = htmlspecialchars($_POST['price']);
+$name = $_POST['name'];
+$description = $_POST['description'];
+$price = $_POST['price'];
 
 if($adminconn) {
     $sql = "INSERT INTO product (name, description, price) VALUES (?, ?, ?)";

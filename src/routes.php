@@ -27,4 +27,12 @@ get('/users/$id', 'services/adminResource.php');
 post('/update-users/$id','services/adminResource.php');
 post('/delete-users/$id', 'services/adminResource.php');
 get('/admin', 'services/adminResource.php');
+
+// frontend redirects
+get('/getProduct', function () {
+    $id = $_GET['id'];
+    header("Location: /products/$id");
+});
+
+// not found catch-all
 any('/404','views/404.php');
