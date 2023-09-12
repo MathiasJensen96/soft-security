@@ -11,10 +11,10 @@ use security\InputValidator;
 session_start();
 
 $validator = new InputValidator();
-$validator->orderline($_POST);
+//$validator->orderline($_POST);
 
-$productId = htmlspecialchars($_POST['productId']);
-$quantity = htmlspecialchars($_POST['quantity']);
+$orderlines = $_POST['orderlines'];
+$orderline = array();
 $email = $_SESSION['email'];
 
 if($userconn) {
@@ -30,12 +30,14 @@ if($userconn) {
     $result = $stmt->execute([$lastID[0]]);
     
     if($result) {
-        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $orderline = new orderlines($productId, $lastID[0], $quantity);
-            $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderline);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        foreach($orderlines as $currOrderline) {
+            $newOrderline = new orderlines($currOrderline['productId'], $lastID[0], $currOrderline['quantity']);
+            $stmt = $userconn->prepare("INSERT INTO securitydb.orderline (productId, orderId, quantity) VALUES (?, ?, ?)");
+            $stmt->execute([$newOrderline->getProductId(), $lastID[0], $newOrderline->getQuantity()]);
+            array_push($orderline, $newOrderline);
         }
-        $stmt = $userconn->prepare("INSERT INTO securitydb.orderline (productId, orderId, quantity) VALUES (?, ?, ?)");
-        $stmt->execute([$productId, $lastID[0], $quantity]);
+        $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderline);
         $userconn->commit();
 
         header("Content-Type: application/json");

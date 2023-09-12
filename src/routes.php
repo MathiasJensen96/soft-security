@@ -11,7 +11,7 @@ post('/login', 'services/login.php');
 get('/logout', 'services/logout.php');
 post('/logout', 'services/logout.php');
 get('/register', 'views/register.php');
-post('/register', 'views/register.php');
+post('/register', 'services/signup.serv.php');
 get('/products', 'views/allProducts.php');
 get('/products/$id', 'views/oneProduct.php');
 get('/products/$id/delete', 'views/deleteProduct.php');
