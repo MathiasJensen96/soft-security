@@ -13,7 +13,7 @@ use security\InputValidator;
 session_start();
 
 $accessControl = new AccessController();
-$accessControl->validateAccess('getUser', 'admin');
+$accessControl->validateAccess('deleteUser', 'admin');
 
 if ($_SERVER['REQUEST_METHOD'] !== "GET") {
     ErrorResponse::makeErrorResponse(405, "Method not allowed");
@@ -22,16 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
 
 $inputValidator = new InputValidator();
 $inputValidator->id($id);
-//    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find user with invalid id: " . $id);
+//    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete user with invalid id: " . $id);
 
 $userDao = new UserDao;
 
-$user = $userDao->getUserById($id);
-if (empty($user)) {
-    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to find non-existent user: " . $id);
+if (!$userDao->getUserById($id)) {
+    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete non-existent user: " . $id);
     ErrorResponse::makeErrorResponse(404, "User not found with id: $id");
     exit;
 }
-error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
-header("Content-Type: application/json");
-echo htmlEncodedJson($user);
+
+$userDao->deleteUser($id);
+error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'delete user' endpoint and deleted: " . $id . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);

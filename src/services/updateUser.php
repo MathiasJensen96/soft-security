@@ -13,7 +13,7 @@ use security\InputValidator;
 session_start();
 
 $accessControl = new AccessController();
-$accessControl->validateAccess('getUser', 'admin');
+$accessControl->validateAccess('updateUser', 'admin');
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     ErrorResponse::makeErrorResponse(405, "Method not allowed");
@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
 }
 
 $inputValidator = new InputValidator();
-$userDao = new UserDao;
-
 $inputValidator->id($id);
 $inputValidator->user($_POST);
 //    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update user" . $id . " with invalid data");
+
+$userDao = new UserDao;
 
 if (!$userDao->getUserById($id)) {
     error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update non-existent user: " . $id);

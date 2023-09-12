@@ -1,7 +1,7 @@
 <?php
     class users {
         //Properties
-        public int $id;
+        public ?int $id;
         public string $email;
         public string $password;
         public string $role;

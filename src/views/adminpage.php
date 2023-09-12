@@ -74,7 +74,7 @@
         </form>
 
         <h1>Delete user here</h1>
-        <form method="POST" action="/delete-users/$id">
+        <form method="GET" action="/deleteUser">
             <div class="container">
                 <label>
                     ID of user to delete:

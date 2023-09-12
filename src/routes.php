@@ -38,6 +38,10 @@ post('/updateUser', function () {
     $id = $_POST['id'];
     header("Location: /users/$id", true, 307);
 });
+get('/deleteUser', function () {
+    $id = $_GET['id'];
+    header("Location: /users/$id/delete");
+});
 get('/getProduct', function () {
     $id = $_GET['id'];
     header("Location: /products/$id");
