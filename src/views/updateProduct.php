@@ -18,17 +18,19 @@ $validator->id($id);
 $validator->product($_POST);
 
 if($adminconn) {
-    $sql = "SELECT * FROM product WHERE id = '$id'";
-    $result = $adminconn->query($sql);
+    $sql = "SELECT * FROM product WHERE id = ?";
+    $result = $adminconn->prepare($sql);
+    $result->execute([$id]);
     $row = $result->fetch(PDO::FETCH_ASSOC);
 
     $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
 
     if(!empty($_POST['name'])) {
-        $name = htmlspecialchars($_POST['name']);
+        $name = $_POST['name'];
         if($name != $product->getName()) {
-            $sql = "UPDATE product SET name = '$name' WHERE id = '$id'";
-            $result = $adminconn->query($sql);
+            $sql = "UPDATE product SET name = ? WHERE id = ?";
+            $result = $adminconn->prepare($sql);
+            $result->execute([$name, $id]);
             echo "Name was updated! ";
         }
     } else {
@@ -36,10 +38,11 @@ if($adminconn) {
     }
 
     if(!empty($_POST['description'])) {
-        $description = htmlspecialchars($_POST['description']);
+        $description = $_POST['description'];
         if($description != $product->getdescription()) {
-            $sql = "UPDATE product SET description = '$description' WHERE id = '$id'";
-            $result = $adminconn->query($sql);
+            $sql = "UPDATE product SET description = ? WHERE id = ?";
+            $result = $adminconn->prepare($sql);
+            $result->execute([$description, $id]);
             echo "Description was updated! ";
         }
     } else {
@@ -47,10 +50,11 @@ if($adminconn) {
     }
 
     if(!empty($_POST['price'])) {
-        $price = htmlspecialchars($_POST['price']);
+        $price = $_POST['price'];
         if($price != $product->getprice()) {
-            $sql = "UPDATE product SET price = '$price' WHERE id = '$id'";
-            $result = $adminconn->query($sql);
+            $sql = "UPDATE product SET price = ? WHERE id = ?";
+            $result = $adminconn->prepare($sql);
+            $result->execute([$price, $id]);
             echo "Price was updated! ";
         }
     } else {

@@ -17,7 +17,9 @@ $accessControl->validateAccess('updateOrder');
 
 $validator = new InputValidator();
 $validator->id($id);
-$validator->orderline($_POST);
+$validator->orderlines($_POST);
+
+$orderlines = $_POST['orderlines'];
 
 if($userconn) {
     $stmt = $userconn->prepare("SELECT * FROM securitydb.order WHERE id = ?");
@@ -32,9 +34,26 @@ if($userconn) {
 
     $stmt = $userconn->prepare("SELECT * FROM securitydb.orderline WHERE orderid = ?");
     $stmt->execute([$id]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
+    //hent gamle orderlines og lav et array
+    //loop igennem formdata: 
+        //ved product id match -> enten updater quantity eller delete orderline hvis 0
+        //ved ingen match -> insert ny orderline.
+
+
+    // foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    //     $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
+
+    //     foreach($orderlines as $currOrderline) {
+    //         $newOrderline = new orderlines($currOrderline['productId'], $lastID[0], $currOrderline['quantity']);
+    //         if($newOrderline->getProductId() == $orderline->getProductId()) {
+    //             $orderline->setQuantity($newOrderline->getQuantity());
+    //         }
+    //     }
+
+
+    // }
+
 
     if(!empty($_POST['productId']) && !empty($_POST['quantity'])) {
         $productId = htmlspecialchars($_POST['productId']);

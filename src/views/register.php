@@ -1,4 +1,3 @@
-<?php include __DIR__ . "/../services/signup.serv.php" ?>
 <!DOCTYPE html>
 <html>
 

@@ -38,36 +38,4 @@ if ($userconn) {
     $stmt = $userconn->prepare("DELETE FROM securitydb.order WHERE id = ?");
     $stmt->execute([$id]);
     $userconn->commit();
-
-    // TODO: if we want to get all orders after deleting one, we need idor prevention.
-    $sql = "SELECT * FROM securitydb.order";
-    $result = $userconn->query($sql);
-
-    if ($result) {
-        $i = 0;
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $orderlines = [];
-
-            $id = $row['id'];
-            $linesStmt = $userconn->prepare("SELECT * FROM securitydb.orderline WHERE orderId = ?");
-            $linesStmt->execute([$id]);
-
-            $k = 0;
-            while($orderlineRow = $linesStmt->fetch(PDO::FETCH_ASSOC)) {
-                $orderline = new orderlines($orderlineRow['productId'], $orderlineRow['orderId'], $orderlineRow['quantity']);
-
-                $orderlines[$k] = $orderline;
-                $k++;
-            }
-
-            $order = new orders($row['id'], $row['status'], $row['date'], $row['User_email'], $orderlines);
-
-            $response[$i]= $order;
-            $i++;
-        }
-        header("Content-Type: application/json");
-        echo json_encode($response, JSON_HEX_TAG | JSON_PRETTY_PRINT);
-    } else {
-        echo "Failed to delete product";
-    }
 }
