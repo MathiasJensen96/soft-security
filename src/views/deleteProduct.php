@@ -31,10 +31,10 @@ if($adminconn) {
 
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
-            $response[]= $product;
+            $response[]= $product->htmlEncode();
         }
         header("Content-Type: application/json");
-        echo json_encode($response, JSON_HEX_TAG | JSON_PRETTY_PRINT);
+        echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
         error_log(date('c') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete product with id: " . $id . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
         ErrorResponse::makeErrorResponse(500, "Failed to delete product");

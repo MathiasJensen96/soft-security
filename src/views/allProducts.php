@@ -1,25 +1,26 @@
-<?php include __DIR__ . "/../db/dbconn.php"?>
-<?php include __DIR__ . "/../entities/products.php"?>
 <?php
-    $response = array();
 
-    if ($userconn) {
-        $sql = "SELECT * FROM product";
-        $result = $userconn->query($sql);
+require_once __DIR__ . "/../db/dbconn.php";
+require_once __DIR__ . "/../entities/products.php";
 
-        if ($result) {
-            header("Content-Type: application/json");
-            $i = 0;
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+$response = [];
 
-                $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
+if ($userconn) {
+    $sql = "SELECT * FROM product";
+    $result = $userconn->query($sql);
 
-                $response[$i]= $product;
-                $i++;
-            }
-            echo json_encode($response, JSON_HEX_TAG | JSON_PRETTY_PRINT);
+    if ($result) {
+        header("Content-Type: application/json");
+        $i = 0;
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+
+            $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
+
+            $response[$i]= $product->htmlEncode();
+            $i++;
         }
-    } else {
-        echo "Failed to connect to DB";
+        echo json_encode($response, JSON_PRETTY_PRINT);
     }
-?>
+} else {
+    echo "Failed to connect to DB";
+}

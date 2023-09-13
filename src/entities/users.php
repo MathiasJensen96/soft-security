@@ -86,13 +86,17 @@ class users {
             return $this;
     }
 
-    public function toJson(): string
+    public function htmlEncode(): array
     {
-        $obj = [
+        return [
             "id" => $this->id,
             "email" => htmlentities($this->email),
             "role" => htmlentities($this->role),
         ];
-        return json_encode($obj);
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->htmlEncode(), JSON_PRETTY_PRINT);
     }
 }

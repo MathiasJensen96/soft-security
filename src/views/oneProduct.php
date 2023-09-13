@@ -25,7 +25,7 @@ if ($userconn) {
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         header("Content-Type: application/json");
         $product = new products($row['id'], $row['name'], $row['description'], $row['price']);
-        echo json_encode($product, JSON_HEX_TAG | JSON_PRETTY_PRINT);
+        echo $product->toJson();
     } else {
         ErrorResponse::makeErrorResponse(404, "Product not found with id: $id");
     }
