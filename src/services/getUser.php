@@ -4,7 +4,6 @@ require_once __DIR__ . '/../controllers/AccessController.php';
 require_once __DIR__ . '/../db/UserDao.php';
 require_once __DIR__ . '/../error_handling/ErrorResponse.php';
 require_once __DIR__ . '/../security/InputValidator.php';
-require_once __DIR__ . '/../security/outputEncoder.php';
 
 use controllers\AccessController;
 use error_handling\ErrorResponse;
@@ -34,4 +33,4 @@ if (empty($user)) {
 }
 error_log(date('l jS \of F Y h:i:s A') . " | User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " successfully used 'get user' endpoint and found: " . json_encode($user) . "\n", 3, $_ENV['ADMIN_ENDPOINT_LOG']);
 header("Content-Type: application/json");
-echo htmlEncodedJson($user);
+echo $user->toJson();
