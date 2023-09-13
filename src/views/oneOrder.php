@@ -50,7 +50,7 @@ if ($userconn) {
 
     $order = new orders($row['id'], $row['status'], $row['date'], $row['user'], $orderlines);
     header("Content-Type: application/json");
-    echo json_encode($order, JSON_HEX_TAG | JSON_PRETTY_PRINT);
+    echo $order->toJson();
 
 } else {
     echo "Failed to connect to DB";

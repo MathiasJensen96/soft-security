@@ -1,73 +1,86 @@
 <?php
-    class orderlines {
-        public $productId;
-        public $orderId;
-        public $quantity;
+class orderlines {
+    public int $productId;
+    public int $orderId;
+    public int $quantity;
 
-        function __construct($productId, $orderId, $quantity) {
-                $this->productId = $productId;
-                $this->orderId = $orderId;
-                $this->quantity = $quantity;
-            }
-
-        /**
-         * Get the value of productId
-         */ 
-        public function getProductId()
-        {
-                return $this->productId;
+    function __construct($productId, $orderId, $quantity) {
+            $this->productId = $productId;
+            $this->orderId = $orderId;
+            $this->quantity = $quantity;
         }
 
-        /**
-         * Set the value of productId
-         *
-         * @return  self
-         */ 
-        public function setProductId($productId)
-        {
-                $this->productId = $productId;
+    /**
+     * Get the value of productId
+     */
+    public function getProductId()
+    {
+            return $this->productId;
+    }
 
-                return $this;
-        }
+    /**
+     * Set the value of productId
+     *
+     * @return  self
+     */
+    public function setProductId($productId)
+    {
+            $this->productId = $productId;
 
-        /**
-         * Get the value of orderId
-         */ 
-        public function getOrderId()
-        {
-                return $this->orderId;
-        }
+            return $this;
+    }
 
-        /**
-         * Set the value of orderId
-         *
-         * @return  self
-         */ 
-        public function setOrderId($orderId)
-        {
-                $this->orderId = $orderId;
+    /**
+     * Get the value of orderId
+     */
+    public function getOrderId(): int
+    {
+            return $this->orderId;
+    }
 
-                return $this;
-        }
+    /**
+     * Set the value of orderId
+     *
+     * @return  self
+     */
+    public function setOrderId($orderId)
+    {
+            $this->orderId = $orderId;
 
-        /**
-         * Get the value of quantity
-         */ 
-        public function getQuantity()
-        {
-                return $this->quantity;
-        }
+            return $this;
+    }
 
-        /**
-         * Set the value of quantity
-         *
-         * @return  self
-         */ 
-        public function setQuantity($quantity)
-        {
-                $this->quantity = $quantity;
+    /**
+     * Get the value of quantity
+     */
+    public function getQuantity(): int
+    {
+            return $this->quantity;
+    }
 
-                return $this;
-        }
-        }
-        ?>
+    /**
+     * Set the value of quantity
+     *
+     * @return  self
+     */
+    public function setQuantity($quantity)
+    {
+            $this->quantity = $quantity;
+
+            return $this;
+    }
+
+    public function htmlEncode(): array
+    {
+        return [
+            "productId" => $this->productId,
+            "orderId" => $this->orderId,
+            "quantity" => $this->quantity,
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->htmlEncode(), JSON_PRETTY_PRINT);
+    }
+}

@@ -43,11 +43,11 @@ if ($userconn) {
 
         $order = new orders($row['id'], $row['status'], $row['date'], $row['user'], $orderlines);
 
-        $response[$i]= $order;
+        $response[$i]= $order->htmlEncode();
         $i++;
     }
     header("Content-Type: application/json");
-    echo json_encode($response, JSON_HEX_TAG | JSON_PRETTY_PRINT);
+    echo json_encode($response, JSON_PRETTY_PRINT);
 } else {
     echo "Failed to connect to DB";
 }
