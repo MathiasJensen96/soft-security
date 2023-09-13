@@ -77,7 +77,7 @@ class InputValidator
     {
         try {
             v::key('productId', $this->idValidator)
-                ->key('quantity', v::intVal()->positive())
+                ->key('quantity', v::intVal())  //->positive()
                 ->setName('orderline')
                 ->assert($orderline);
         } catch (NestedValidationException $e) {

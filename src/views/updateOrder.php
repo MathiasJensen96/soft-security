@@ -20,8 +20,10 @@ $validator->id($id);
 $validator->orderlines($_POST);
 
 $orderlines = $_POST['orderlines'];
+$currOrderlines = array();
 
 if($userconn) {
+    //$userconn->beginTransaction();
     $stmt = $userconn->prepare("SELECT * FROM securitydb.order WHERE id = ?");
     $stmt->execute([$id]);
 
@@ -35,36 +37,31 @@ if($userconn) {
     $stmt = $userconn->prepare("SELECT * FROM securitydb.orderline WHERE orderid = ?");
     $stmt->execute([$id]);
 
-    //hent gamle orderlines og lav et array
-    //loop igennem formdata: 
-        //ved product id match -> enten updater quantity eller delete orderline hvis 0
-        //ved ingen match -> insert ny orderline.
+    foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
+        array_push($currOrderlines, $orderline);
+    }
 
+    foreach($orderlines as $updateOrderline) {
+        $newOrderline = new orderlines($updateOrderline['productId'], $id, $updateOrderline['quantity']);
+        $match = false;
 
-    // foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-    //     $orderline = new orderlines($row['productId'], $row['orderId'], $row['quantity']);
-
-    //     foreach($orderlines as $currOrderline) {
-    //         $newOrderline = new orderlines($currOrderline['productId'], $lastID[0], $currOrderline['quantity']);
-    //         if($newOrderline->getProductId() == $orderline->getProductId()) {
-    //             $orderline->setQuantity($newOrderline->getQuantity());
-    //         }
-    //     }
-
-
-    // }
-
-
-    if(!empty($_POST['productId']) && !empty($_POST['quantity'])) {
-        $productId = htmlspecialchars($_POST['productId']);
-        $quantity = htmlspecialchars($_POST['quantity']);
-        if($quantity != $orderline->getQuantity()) {
-            $sql = "UPDATE securitydb.orderline SET quantity = ? WHERE productId = ? AND orderId = ?";
-            $stmt = $userconn->prepare($sql);
-            $stmt->execute([$quantity, $productId, $id]);
-            echo "quantity was updated! ";
+        for($i = 0; $i < count($currOrderlines); $i++) {
+            if($newOrderline->getProductId() == $currOrderlines[$i]->productId) {
+                if($newOrderline->getQuantity() == 0) {
+                    $stmt = $userconn->prepare("DELETE FROM securitydb.orderline WHERE orderId = ? AND productId = ?");
+                    $stmt->execute([$id, $newOrderline->getProductId()]);
+                }
+                else if($newOrderline->getQuantity() != $currOrderlines[$i]->quantity) {
+                    $stmt = $userconn->prepare("UPDATE securitydb.orderline SET quantity = ? WHERE productId = ? AND orderId = ?");
+                    $stmt->execute([$newOrderline->getQuantity(), $newOrderline->getProductId(), $id]);
+                }
+                $match = true;
+            }
         }
-    } else {
-        echo "ProductID or quantity had no input. ";
+        if($match == false) {
+            $stmt = $userconn->prepare("INSERT INTO securitydb.orderline (productId, orderId, quantity) VALUES (?, ?, ?)");
+            $stmt->execute([$newOrderline->getProductId(), $id, $newOrderline->getQuantity()]);
+        }
     }
 }
