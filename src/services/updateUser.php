@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
 $inputValidator = new InputValidator();
 $inputValidator->id($id);
 $inputValidator->user($_POST);
-//    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to update user" . $id . " with invalid data");
 
 $userDao = new UserDao;
 

@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
 
 $inputValidator = new InputValidator();
 $inputValidator->id($id);
-//    error_log("User: " . $_SESSION['email'] . " with role: " . $_SESSION['role'] . " tried to delete user with invalid id: " . $id);
 
 $userDao = new UserDao;
 
