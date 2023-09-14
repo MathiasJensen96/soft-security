@@ -9,6 +9,12 @@
         <?php include 'navbar.php'; ?>
         <div style="padding-left:16px;text-align: center">
             <h1>Hello World!</h1>
+            <h2>Get all users here</h2>
+            <div class="container">
+                <form method="GET" action="/users">
+                    <button type="submit">Get all users</button>
+                </form>
+            </div>
             <h2>Find user information here</h2>
             <div class="container">
                 <form method="GET" action="/getUser">

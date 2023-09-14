@@ -14,6 +14,16 @@ class UserDao
         $this->adminconn = $adminconn;
     }
 
+    function getAllUsers(): array
+    {
+        $users = [];
+        $result = $this->userconn->query("select * from user", PDO::FETCH_ASSOC);
+        foreach ($result as $row) {
+            $users[] = new users($row['email'], $row['password'], $row['role'], $row['id']);
+        }
+        return $users;
+    }
+
     function getUserById(int $id): ?users
     {
         $stmt = $this->userconn->prepare("select * from user where id = ?");

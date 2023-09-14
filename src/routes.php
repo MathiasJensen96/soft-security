@@ -27,6 +27,7 @@ post('/orders/$id', 'views/updateOrder.php');
 get('/orders/$id', 'views/oneOrder.php');
 get('/orders/$id/delete', 'views/deleteOrder.php');
 get('/admin-page', 'controllers/adminPageController.php');
+get('/users', 'services/getUsers.php');
 get('/users/$id', 'services/getUser.php');
 post('/users/$id','services/updateUser.php');
 post('/users/$id/delete', 'services/deleteUser.php');
