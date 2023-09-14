@@ -14,12 +14,14 @@ use security\RateLimiter;
 
 session_start();
 
+$ip = getIp();
+
 $validator = new InputValidator();
 $validator->credentials($_POST);
 
 $rateLimiter = new RateLimiter(5, 60);
-if (!$rateLimiter->isAllowed(getIp())) {
-    error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| session: |". session_id(). "| Too many login requests",);
+if (!$rateLimiter->isAllowed($ip)) {
+    error_log("ip: | $ip | session: |". session_id(). "| Too many login requests",);
     ErrorResponse::makeErrorResponse(429, "Too many requests");
     exit;
 }
@@ -38,6 +40,6 @@ if ($user && password_verify($_POST['password'], $user->getPassword())) { // Ver
         header("Location: /admin-page");
     }
 } else {
-    error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| Attempted login to user: " . $_POST['email']);
+    error_log("ip: | $ip | Attempted login to user: " . $_POST['email']);
     ErrorResponse::makeErrorResponse(401, "Incorrect username or password");
 }
