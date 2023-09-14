@@ -16,9 +16,9 @@ class UserDao
 
     function getUserById(int $id): ?users
     {
-        $stm = $this->userconn->prepare("select * from user where id = ?");
-        $stm->execute([$id]);
-        $user = $stm->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->userconn->prepare("select * from user where id = ?");
+        $stmt->execute([$id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$user) {
             return null;
         }
@@ -27,9 +27,9 @@ class UserDao
 
     function getUserByEmail(string $email): ?users
     {
-        $stm = $this->userconn->prepare("select * from user where email = ?");
-        $stm->execute([$email]);
-        $user = $stm->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->userconn->prepare("select * from user where email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$user) {
             return null;
         }
@@ -48,15 +48,15 @@ class UserDao
 
     function updateUser(int $id, string $newEmail, string $newRole)
     {
-        $stm = $this->adminconn->prepare("update `user` set `email` = ?, `role` = ? where `id` = ?");
-        return $stm->execute([$newEmail, $newRole, $id]);
+        $stmt = $this->adminconn->prepare("update `user` set `email` = ?, `role` = ? where `id` = ?");
+        return $stmt->execute([$newEmail, $newRole, $id]);
         //TODO: DER SKAL MÅSKE LAVES NOGET CASCADING SÅ HVIS EN USER HAR 
         // NOGLE ORDRE SÅ SKAL EMAIL OGSÅ ÆNDRES DERINDE?
     }
 
     function deleteUser(int $id){
-        $stm = $this->adminconn->prepare("delete from user where id = ?");
-        $stm->execute([$id]);
+        $stmt = $this->adminconn->prepare("delete from user where id = ?");
+        $stmt->execute([$id]);
         //TODO: IGEN, DER SKAL MÅSKE LAVES NOGET CASCADING FOR AT FJERNE ALT OM USER
     }
 }

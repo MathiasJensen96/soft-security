@@ -27,7 +27,7 @@ get('/orders/$id/delete', 'views/deleteOrder.php');
 get('/admin-page', 'controllers/adminPageController.php');
 get('/users/$id', 'services/getUser.php');
 post('/users/$id','services/updateUser.php');
-get('/users/$id/delete', 'services/deleteUser.php');
+post('/users/$id/delete', 'services/deleteUser.php');
 get('/admin', 'services/adminResource.php');
 
 // frontend redirects
@@ -40,9 +40,9 @@ post('/updateUser', function () {
     $id = $_POST['id'];
     header("Location: /users/$id", true, 307);
 });
-get('/deleteUser', function () {
-    $id = $_GET['id'];
-    header("Location: /users/$id/delete");
+post('/deleteUser', function () {
+    $id = $_POST['id'];
+    header("Location: /users/$id/delete", true, 307);
 });
 get('/getProduct', function () {
     $id = $_GET['id'];

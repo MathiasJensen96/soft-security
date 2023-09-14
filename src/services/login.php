@@ -35,6 +35,7 @@ if ($user && password_verify($_POST['password'], $user->getPassword())) { // Ver
     $_SESSION['id'] = $user->getId();
     $_SESSION['role'] = $user->getRole();
     $_SESSION['email'] = $user->getEmail();
+    set_csrf(); // now it doesn't redirect anymore
 
     if ($_SESSION['role'] === "admin") { // Maybe not the best practise to redirect here
         header("Location: /admin-page");

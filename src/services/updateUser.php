@@ -19,6 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     exit;
 }
 
+if (!is_csrf_valid()) {
+    ErrorResponse::makeErrorResponse(400, "CSRF token invalid");
+    exit;
+}
+
 $inputValidator = new InputValidator();
 $inputValidator->id($id);
 $inputValidator->user($_POST);
