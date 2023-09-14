@@ -6,17 +6,7 @@
         <title> Login Page </title>
     </head>
     <body>
-        <div class="topnav">
-            <div class="nav-left">
-                <a href="/">Home</a>
-                <a href="products">Products</a>
-                <a href="orders">Orders</a>
-            </div>
-            <div class="nav-right">
-                <a class="active" href="/login">Login</a>
-                <a href="/register">Register</a>
-            </div>
-        </div>
+        <?php include 'navbar.php'; ?>
         <div style="text-align: center;"> <h1> Login here </h1> </div>
         <div class="container">
             <form method="POST" action="/login">

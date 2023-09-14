@@ -3,20 +3,10 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="views/style.css" rel="stylesheet" />
-        <title> Signup Page </title>
+        <title>Signup Page</title>
     </head>
     <body>
-        <div class="topnav">
-            <div class="nav-left">
-                <a href="/">Home</a>
-                <a href="products">Products</a>
-                <a href="orders">Orders</a>
-            </div>
-            <div class="nav-right">
-                <a href="/login">Login</a>
-                <a class="active" href="/register">Register</a>
-            </div>
-        </div>
+        <?php include 'navbar.php'; ?>
         <div style="text-align: center;">
             <h1> Signup here </h1>
         </div>

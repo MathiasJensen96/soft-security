@@ -5,6 +5,8 @@ require_once __DIR__ . '/error_handling/exceptionHandler.php';
 
 set_exception_handler('exceptionHandler');
 
+session_start();
+
 get('/', 'views/index.php');
 get('/login', 'views/login.php');
 post('/login', 'services/login.php');
@@ -22,7 +24,7 @@ post('/orders','views/createOrder.php');
 post('/orders/$id', 'views/updateOrder.php');
 get('/orders/$id', 'views/oneOrder.php');
 get('/orders/$id/delete', 'views/deleteOrder.php');
-get('/adminpage', 'controllers/adminPageController.php');
+get('/admin-page', 'controllers/adminPageController.php');
 get('/users/$id', 'services/getUser.php');
 post('/users/$id','services/updateUser.php');
 get('/users/$id/delete', 'services/deleteUser.php');

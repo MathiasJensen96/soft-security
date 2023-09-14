@@ -35,7 +35,7 @@ if ($user && password_verify($_POST['password'], $user->getPassword())) { // Ver
     $_SESSION['email'] = $user->getEmail();
 
     if ($_SESSION['role'] === "admin") { // Maybe not the best practise to redirect here
-        header("Location: /adminpage");
+        header("Location: /admin-page");
     }
 } else {
     error_log("ip: |" . $_SERVER['REMOTE_ADDR'] . "| Attempted login to user: " . $_POST['email']);
