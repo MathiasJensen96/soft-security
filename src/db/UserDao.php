@@ -50,13 +50,16 @@ class UserDao
     {
         $stmt = $this->adminconn->prepare("update `user` set `email` = ?, `role` = ? where `id` = ?");
         return $stmt->execute([$newEmail, $newRole, $id]);
-        //TODO: DER SKAL MÅSKE LAVES NOGET CASCADING SÅ HVIS EN USER HAR 
-        // NOGLE ORDRE SÅ SKAL EMAIL OGSÅ ÆNDRES DERINDE?
     }
 
     function deleteUser(int $id){
+        $this->adminconn->beginTransaction();
+        $stmt = $this->adminconn->prepare("delete from orderline where orderId in (select id from `order` where user = ?)");
+        $stmt->execute([$id]);
+        $stmt = $this->adminconn->prepare("delete from `order` where user = ?");
+        $stmt->execute([$id]);
         $stmt = $this->adminconn->prepare("delete from user where id = ?");
         $stmt->execute([$id]);
-        //TODO: IGEN, DER SKAL MÅSKE LAVES NOGET CASCADING FOR AT FJERNE ALT OM USER
+        $this->adminconn->commit();
     }
 }

@@ -12,7 +12,6 @@
             <h2>Find user information here</h2>
             <div class="container">
                 <form method="GET" action="/getUser">
-                    <?php set_csrf() ?>
                     <label>
                         Get user by ID:
                         <input type="text" placeholder="Enter user ID" name="id" >
