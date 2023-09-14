@@ -35,29 +35,33 @@ get('/admin', 'services/adminResource.php');
 
 // frontend redirects
 // 307 and 308 don't change the request method, just resubmits the request
-get('/getUser', function () {
+get('/getUser', function() {
     $id = $_GET['id'];
     header("Location: /users/$id");
 });
-post('/updateUser', function () {
+post('/updateUser', function() {
     $id = $_POST['id'];
     header("Location: /users/$id", true, 307);
 });
-post('/deleteUser', function () {
+post('/deleteUser', function() {
     $id = $_POST['id'];
     header("Location: /users/$id/delete", true, 307);
 });
-get('/getProduct', function () {
+get('/getProduct', function() {
     $id = $_GET['id'];
     header("Location: /products/$id");
 });
-post('/updateProduct', function () {
+post('/updateProduct', function() {
     $id = $_POST['id'];
     header("Location: /products/$id", true, 307);
 });
-post('/deleteProduct', function () {
+post('/deleteProduct', function() {
     $id = $_POST['id'];
     header("Location: /products/$id/delete", true, 307);
+});
+get('/getOrder', function() {
+    $id = $_GET['id'];
+    header("Location: /orders/$id");
 });
 
 // not found catch-all

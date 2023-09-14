@@ -10,12 +10,27 @@
 </head>
 <body>
     <?php include 'navbar.php'; ?>
-    <h1>Orders</h1>
-    <p>TODO: get all, get one</p>
+    <div style="padding-left:16px;text-align: center">
+        <h1>Orders</h1>
+        <h2>All orders</h2>
+        <div class="container">
+            <form method="GET" action="/orders">
+                <button type="submit">Get all orders</button>
+            </form>
+        </div>
+        <h2>Find order</h2>
+        <div class="container">
+            <form method="GET" action="/getOrder">
+                <label>
+                    Get order by ID:
+                    <input type="number" min="1" placeholder="Enter ID" name="id" required>
+                    <button type="submit">Find order</button>
+            </form>
+        </div>
 
-    <?php
-    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {?>
-        <p>TODO: forms for create, update and delete orders</p>
-    <?php } ?>
+        <?php
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {?>
+            <p>TODO: forms for create, update and delete orders</p>
+        <?php } ?>
 </body>
 </html>
