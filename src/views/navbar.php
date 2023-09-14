@@ -7,7 +7,7 @@
         }
         ?>
         <?php
-        if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+        if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             echo '<li><a href="admin-page">Admin</a></li>';
         }
         ?>
