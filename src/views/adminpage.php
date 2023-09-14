@@ -14,7 +14,7 @@
                 <form method="GET" action="/getUser">
                     <label>
                         Get user by ID:
-                        <input type="text" placeholder="Enter user ID" name="id" >
+                        <input type="number" min="1" placeholder="Enter user ID" name="id" required>
                     </label>
                     <button type="submit">Get user</button>
                 </form>
@@ -25,15 +25,15 @@
                     <?php set_csrf() ?>
                     <label>
                         User ID:
-                        <input type="text" placeholder="Enter user ID" name="id" >
+                        <input type="number" min="1" placeholder="Enter user ID" name="id" required>
                     </label>
                     <label>
                         Role:
-                        <input type="text" placeholder="Enter new user role" name="role" >
+                        <input type="text" placeholder="Enter new user role" name="role" required>
                     </label>
                     <label>
                         New email:
-                        <input type="text" placeholder="Enter new user email" name="email" >
+                        <input type="email" placeholder="Enter new user email" name="email" required>
                     </label>
                     <button type="submit" name="update">Update</button>
                 </form>
@@ -44,7 +44,7 @@
                     <?php set_csrf() ?>
                     <label>
                         ID of user to delete:
-                        <input type="text" placeholder="Enter ID" name="id" >
+                        <input type="number" min="1" placeholder="Enter user ID" name="id" required>
                     </label>
                     <button type="submit" name="delete">Terminate</button>
                 </form>

@@ -17,7 +17,7 @@ post('/register', 'services/signup.serv.php');
 get('/products-page', 'views/products-page.php');
 get('/products', 'views/allProducts.php');
 get('/products/$id', 'views/oneProduct.php');
-get('/products/$id/delete', 'views/deleteProduct.php');
+post('/products/$id/delete', 'views/deleteProduct.php');
 post('/products', 'views/createProduct.php');
 post('/products/$id', 'views/updateProduct.php');
 get('/orders', 'views/allOrders.php');
@@ -49,6 +49,14 @@ post('/deleteUser', function () {
 get('/getProduct', function () {
     $id = $_GET['id'];
     header("Location: /products/$id");
+});
+post('/updateProduct', function () {
+    $id = $_POST['id'];
+    header("Location: /products/$id", true, 307);
+});
+post('/deleteProduct', function () {
+    $id = $_POST['id'];
+    header("Location: /products/$id/delete", true, 307);
 });
 
 // not found catch-all
