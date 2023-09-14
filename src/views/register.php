@@ -6,6 +6,17 @@
         <title> Signup Page </title>
     </head>
     <body>
+        <div class="topnav">
+            <div class="nav-left">
+                <a href="/">Home</a>
+                <a href="products">Products</a>
+                <a href="orders">Orders</a>
+            </div>
+            <div class="nav-right">
+                <a href="/login">Login</a>
+                <a class="active" href="/register">Register</a>
+            </div>
+        </div>
         <div style="text-align: center;">
             <h1> Signup here </h1>
         </div>
