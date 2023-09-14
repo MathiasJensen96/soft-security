@@ -1,74 +1,26 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Signup Page </title>
-    <style>
-        Body {
-            font-family: Calibri, Helvetica, sans-serif;
-            background-color: white;
-        }
-
-        button {
-            background-color: #4CAF50;
-            width: 100%;
-            color: orange;
-            padding: 15px;
-            margin: 10px 0px;
-            border: none;
-            cursor: pointer;
-        }
-
-        form {
-            border: 3px solid #f1f1f1;
-        }
-
-        input[type=email],
-        input[type=password] {
-            width: 100%;
-            margin: 8px 0;
-            padding: 12px 20px;
-            display: inline-block;
-            border: 2px solid green;
-            box-sizing: border-box;
-        }
-
-        button:hover {
-            opacity: 0.7;
-        }
-
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            margin: 10px 5px;
-        }
-
-
-        .container {
-            padding: 25px;
-            background-color: lightblue;
-        }
-    </style>
-</head>
-
-<body>
-    <center>
-        <h1> Signup here </h1>
-    </center>
-    <form method="POST" action="/register">
-        <div class="container">
-            <label>
-                Email:
-                <input type="email" placeholder="Enter Email" name="email" required>
-            </label>
-            <label>
-                Password:
-                <input type="password" placeholder="Enter Password" name="password" required>
-            </label>
-            <button type="submit">Signup</button>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="views/style.css" rel="stylesheet" />
+        <title> Signup Page </title>
+    </head>
+    <body>
+        <div style="text-align: center;">
+            <h1> Signup here </h1>
         </div>
-    </form>
-</body>
-
+        <div class="container">
+            <form method="POST" action="/register">
+                <label>
+                    Email:
+                    <input type="email" placeholder="Enter Email" name="email" required>
+                </label>
+                <label>
+                    Password:
+                    <input type="password" placeholder="Enter Password" name="password" required>
+                </label>
+                <button type="submit">Signup</button>
+            </form>
+        </div>
+    </body>
 </html>
