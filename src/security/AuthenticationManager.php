@@ -83,6 +83,7 @@ class AuthenticationManager
     {
         $_SESSION['expiration'] = time() + self::ABSOLUTE_EXPIRATION;
         $_SESSION['authenticated'] = true;
+        unset($_SESSION['csrf']);
         $this->renewSession();
         $this->didActivity();
     }
