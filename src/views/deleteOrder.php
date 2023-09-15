@@ -16,6 +16,16 @@ session_start();
 $accessControl = new AccessController();
 $accessControl->validateAccess('deleteOrder');
 
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    ErrorResponse::makeErrorResponse(405, "Method not allowed");
+    exit;
+}
+
+if (!is_csrf_valid()) {
+    ErrorResponse::makeErrorResponse(400, "CSRF token invalid");
+    exit;
+}
+
 $validator = new InputValidator();
 $validator->id($id);
 

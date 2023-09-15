@@ -27,10 +27,18 @@
                     <button type="submit">Find order</button>
             </form>
         </div>
-
-        <?php
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {?>
-            <p>TODO: forms for create, update and delete orders</p>
-        <?php } ?>
+        <p>TODO: create, update</p>
+        <h2>Delete order</h2>
+        <div class="container">
+            <form method="POST" action="/deleteOrder">
+                <?php set_csrf() ?>
+                <label>
+                    ID of product to delete:
+                    <input type="number" min="1" placeholder="Enter ID" name="id" required>
+                </label>
+                <button type="submit" name="delete">Terminate</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

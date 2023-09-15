@@ -25,7 +25,7 @@ get('/orders-page', 'views/orders-page.php');
 post('/orders','views/createOrder.php');
 post('/orders/$id', 'views/updateOrder.php');
 get('/orders/$id', 'views/oneOrder.php');
-get('/orders/$id/delete', 'views/deleteOrder.php');
+post('/orders/$id/delete', 'views/deleteOrder.php');
 get('/admin-page', 'controllers/adminPageController.php');
 get('/users', 'services/getUsers.php');
 get('/users/$id', 'services/getUser.php');
@@ -62,6 +62,10 @@ post('/deleteProduct', function() {
 get('/getOrder', function() {
     $id = $_GET['id'];
     header("Location: /orders/$id");
+});
+post('/deleteOrder', function() {
+    $id = $_POST['id'];
+    header("Location: /orders/$id/delete", true, 307);
 });
 
 // not found catch-all
